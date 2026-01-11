@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+الدورات
+{% endblock title%}
+
+{% block styles %}
+{% endblock styles%}
+
+{% block content %}
+<h2></h2>
+{% for course in courses %}
+<form method="post" class="course-filter">
+    {% csrf_token %}
+
+</form>
+<div class="course-card">
+    <a href="{% url 'course' course.id %}">
+        <img src="" alt="">
+        <h3>{{ course.title }}</h3>
+        <p>{{ course.short_discription }}</p>
+        <p>{{ course.price }}</p>
+    </a>
+</div>
+{% endfor %}
+{% endblock content %}

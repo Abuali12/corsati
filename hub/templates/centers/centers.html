@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock title%}
+
+{% block styles %}
+{% endblock styles%}
+
+{% block content %}
+{% for center in centers %}
+<div class="center-card">
+    <a href="{% url 'center' center.id %}">
+        <img src="" alt="">
+        <h2> {{center.title}} </h2>
+        <h3> {{center.state}} </h3>
+        <p> {{center.discription}} </p>
+    </a>
+</div>
+{% endfor %}
+{% endblock content %}
