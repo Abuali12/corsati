@@ -8,6 +8,7 @@
 {% endblock styles%}
 
 {% block content %}
-<h2> {{coure.title}} </h2>
+<h2> {{course.title}} </h2>
+<h3><a href="{% url 'center' course.center.id%}"> {{course.center}}</a></h3>
 
 {% endblock content %}

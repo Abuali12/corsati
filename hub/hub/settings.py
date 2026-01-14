@@ -23,15 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 from dotenv import load_dotenv
 load_dotenv(BASE_DIR / '.env')
-SECRET_KEY= os.environ.get('DJANGO_SECRET_KEY')
-DEBUG= os.environ.get('DEBUG', 'TRUE') =='TRUE'
-SITE_ID= int(os.environ.get('SITE_ID', 1))
 
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dhhdbacflyerl')
+
+SITE_ID= int(os.environ.get('SITE_ID', 1)) 
+
+DEBUG= os.environ.get('DEBUG','True') ==  'True'
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -47,7 +49,34 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'centers.apps.CentersConfig',
     'courses.apps.CoursesConfig',
+
+    # all-auth
+    'django.contrib.auth',
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+
 ]
+
+AUTHENTICATION_BACKEND= [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+ACCOUNT_AUTHENTICATION_METHOD='username'
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+LOGIN_REDIRECT_URL= 'index'
+ACCOUNT_LOGOUT_REDIRECT_URL= 'index'
+ACCOUNT_ERROR_REDIRECT_URL= 'signup'
+
+SOCIALACCOUNT_LOGIN_ON_GET= True
+ACCOUNT_LOGOUT_ON_GET= True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

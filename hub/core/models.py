@@ -53,7 +53,7 @@ class Profile(models.Model):
         verbose_name_plural='الملفات الشخصية'
 
     def __str__(self):
-        return self.user
+        return self.user.username
    
 
 # course models
@@ -68,21 +68,25 @@ class Course(models.Model):
     learning_outcomes=models.TextField(verbose_name='مخرجات الدورة')
     details= models.TextField(verbose_name='التفاصيل')
 
-    price= models.DecimalField(max_digits=6, decimal_places=4, verbose_name='السعر')
-    currency= models.CharField(max_length=20, verbose_name='العملة')
+    CURRENCIES=(
+        ('SDB','جنية سوداني'),
+        ('USD','دولار أمريكي'),
+        ('SR','ريال سعودي'),
+        ('EGB','جنيه مصري'),
+    )
+    price= models.DecimalField(max_digits=20, decimal_places=4, verbose_name='السعر')
+    currency= models.CharField(max_length=20, choices=CURRENCIES, verbose_name='العملة')
     installment_available= models.BooleanField(default=False, verbose_name='يتوفر التقسيط')
     installment_details= models.TextField(verbose_name='تفاصيل التقسيط', blank=True)
 
     length= models.CharField(max_length=100, verbose_name='المدة')
-    total_hours= models.PositiveIntegerField(verbose_name='عدد الساعات')
-
     start_date= models.DateField(verbose_name='تاريخ البدء', blank=True)
     schedule= models.TextField(verbose_name='الجدول الزمني', blank=True)
 
     TYPE= (
-        ('in_person',''),
-        ('onine',''),
-        ('hybrid',''),
+        ('in_person','حضوري'),
+        ('onine','أونلاين'),
+        ('hybrid','حضوري وأونلاين'),
     )
     course_type= models.CharField(choices=TYPE, max_length=30, verbose_name='نوع الدورة')
     address= models.CharField(max_length=300, verbose_name='المكان', blank=True)
@@ -91,8 +95,8 @@ class Course(models.Model):
     is_active= models.BooleanField(default=True, verbose_name='الدورة نشطة')
     is_featured= models.BooleanField(default=False, verbose_name='الدورة مميزة')
 
-    view_count= models.PositiveIntegerField(verbose_name='عدد المشاهدات')
-    leads_count= models.PositiveIntegerField(verbose_name='عدد المهتمين')
+    view_count= models.PositiveIntegerField(blank=True, verbose_name='عدد المشاهدات')
+    leads_count= models.PositiveIntegerField(blank=True, verbose_name='عدد المهتمين')
 
     created_by= models.ForeignKey(Profile, on_delete=models.PROTECT, related_name='courses', verbose_name='المسؤول')
     created_at= models.DateField(auto_now_add=True, verbose_name='تاريخ الإضافة')
@@ -117,8 +121,8 @@ class Lead(models.Model):
     created_at= models.DateField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
 
     class Meta:
-        verbose_name=''
-        verbose_name_plural=''
+        verbose_name='الدليل'
+        verbose_name_plural='الأدلة'
         ordering=['-created_at']
 
     def __str__(self):
