@@ -5,17 +5,70 @@
 {% endblock title%}
 
 {% block styles %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
 {% endblock styles%}
 
 {% block content %}
-{% for center in centers %}
-<div class="center-card">
-    <a href="{% url 'center' center.id %}">
-        <img src="" alt="">
-        <h2> {{center.title}} </h2>
-        <h3> {{center.state}} </h3>
-        <p> {{center.discription}} </p>
-    </a>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
+</script>
+
+    <div class="filters">
+        <form method="get">
+            <label for="search">البحث</label>
+
+            <button type="submit">بحث</button>
+        </form>
+        <!-- <form action="{% url 'clear_center' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">الكل</button>
+        </form> -->
+    </div>
+
+    <div id="map" style="height: 400px;"></div>
+    <div class="centers_list">
+        {% for center in centers %}
+        <div>
+            <h3><a href="{% url 'center' center.slug %}">{{ center.title}}</a></h3>
+            {% for subject in center.subjects_set.alls %}
+            <li> {{subject.title}} </li>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    
+
+    <script>
+        var map = L.map('map').setView([19.6, 37.22], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        {% for center in centers %}
+            L.marker([{{center.latitude}}, {{center.longitude}}]).addTo(map)
+            .bindPopup("<b><a href='{% url 'center' center.slug %}' target='_blank'>{{center.title}}</a></b>");
+        {% endfor %}
+
+        var marker;
+
+        function onMapClick(e){
+            const lat= e.latlng.lat;
+            const long= e.latlng.lng;
+
+        }
+
+        map.on('click', onMapClick);
+
+    </script>
+
+
+<br>
+<br>
+
+<div class="add-center">
+    <!-- <p>لديك موقع تريد إضافته؟<a href="{% url 'add_center' %}">اضغط هنا</a></p> -->
 </div>
-{% endfor %}
+
 {% endblock content %}

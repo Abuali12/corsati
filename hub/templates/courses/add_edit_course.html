@@ -8,7 +8,8 @@
 {% endblock styles%}
 
 {% block content %}
-<h2> {{course.title}} </h2>
-<h3><a href="{% url 'center' course.center.slug%}"> {{course.center}}</a></h3>
-
+<h2> add course</h2>
+<div>
+    {{form.as_p}}
+</div>
 {% endblock content %}

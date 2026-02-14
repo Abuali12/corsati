@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock title%}
+
+{% block styles %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+{% endblock styles%}
+
+{% block content %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
+</script>
+<img src="" alt="center logo">
+<h2> {{center.title}} </h2>
+
+<div id="map" style="height: 400px;">
+
+</div>
+
+<script>
+    var map = L.map('map').setView([19.6, 37.22], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    L.marker([{{center.latitude}}, {{center.longitude}}]).addTo(map)
+    .bindPopup("<b>{{center.title}}</b>");
+
+</script>
+
+
+<div class="edit_center">
+    <a href="{% url 'edit_center' center.slug %}"><button>edit</button></a>
+</div>
+
+<div class="course_list">
+    {% for course in courses %}
+    <div class="course-card">
+        <a href="{% url 'course' course.slug%}">
+            {% if course.image %}
+            <img src="" alt="">
+            {% endif %}
+            <h3>{{ course.title }}</h3>
+            {% if coures.course_type == 'in_person'%}
+            <h4>حضوري</h4>
+            <h5>{{ course.addres }}</h5>
+            {% elif course.course_type == 'online' %}
+            <h4>اونلاين</h4>
+            <h5> {{course.platform}} </h5>
+            {% else %}
+            <h4>حضوري و اونلاين</h4>
+            <h5>{{ course.address }}</h5>
+            <h5> {{course.online_platform}} </h5>
+            {% endif %}
+
+            <p>{{ course.short_discription }}</p>
+            <p>{{ course.price }}</p>
+        </a>
+    </div>
+    <a href="{% url 'edit_course' course.slug %}">تعديل</a>
+    <a href="{% url 'delete_course' course.slug %}">حذف</a>
+    {% endfor %}
+</div>
+
+<div class="add_course">
+    لديك دورة ترغب في إضافتها؟ <a href="{% url 'add_course' center.slug %}">اضغط هنا</a>
+</div>
+
+{% endblock content %}

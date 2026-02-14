@@ -1,11 +1,26 @@
-<header>
-    <li class="title"><a href="">دوراتي</a></li>
-    <li><a href=""></a>الرئيسية</li>
-    <li><a href=""></a>الدورات</li>
-    <li><a href=""></a>المراكز</li>
-    {% if request.user.is_verified %}
-    <li class="user-button"> {{request.user.name}} </li>
-    {% else %}
-    <li class="login-button"><a href="">تسجيل الدخول</a></li>
-    {% endif %}
+<header class="site-header">
+    <div class="header-inner">
+
+        <h1 class="title">
+            <a href="/">دوراتي</a>
+        </h1>
+
+        <nav>
+            <ul class="nav-list">
+                <li><a href="{% url 'index' %}">الرئيسية</a></li>
+                <li><a href="{% url 'courses' %}">الدورات</a></li>
+                <li><a href="{% url 'centers' %}">المراكز</a></li>
+
+
+                {% if request.user.is_authenticated %}
+                    <li class="user-button">{{ request.user.username }}</li>
+                {% else %}
+                    <li>
+                        <a class="login-button" href="">تسجيل الدخول</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
 </header>

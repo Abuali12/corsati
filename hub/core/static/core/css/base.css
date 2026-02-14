@@ -1,0 +1,224 @@
+:root {
+    --dark-blue: #0f2a44;
+    --light-blue: #1e90ff;
+    --soft-blue: #e8f1fb;
+    --white: #ffffff;
+    --gray: #f5f7fa;
+    --text-dark: #1a1a1a;
+}
+/* Reset (lightweight) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: linear-gradient(
+        180deg,
+        #e8f1fb 0%,
+        #f5f7fa 40%,
+        #ffffff 100%
+    );
+    color: var(--text-dark);
+    line-height: 1.6;
+    direction: rtl;
+}
+/* Links */
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+
+
+/* Main container */
+.main-container {
+    padding: 1rem;
+    min-height: 70vh;
+    background-color: transparent;
+}
+
+/* Utility containers */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 1rem;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+    color: var(--dark-blue);
+    margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--light-blue);
+    color: white;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #1576d1;
+}
+
+/* Cards (you WILL use this a lot) */
+.card {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Footer spacing helper */
+.page-spacer {
+    height: 2rem;
+}
+
+/* Desktop tweaks */
+@media (min-width: 768px) {
+    .main-container {
+        padding: 2rem;
+    }
+
+    .btn {
+        font-size: 1rem;
+    }
+}
+
+/* Header */
+.site-header {
+    background-color: var(--dark-blue);
+    color: white;
+}
+
+/* Header layout */
+.header-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1rem;
+}
+
+/* Title */
+.title a {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+/* Nav */
+.nav-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+/* Nav links */
+/* Header nav links */
+.nav-list a {
+    color: white;
+    padding: 0.45rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+/* Hover & touch feedback */
+.nav-list a:hover,
+.nav-list a:focus {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Active press (mobile tap feedback) */
+.nav-list a:active {
+    background-color: rgba(255, 255, 255, 0.28);
+    transform: scale(0.97);
+}
+
+/* Login button */
+.login-button {
+    background-color: var(--light-blue);
+    color: white;
+}
+
+/* User badge */
+.user-button {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+/* Desktop enhancement */
+@media (min-width: 768px) {
+    .header-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-list {
+        gap: 1rem;
+    }
+}
+
+/* Footer */
+.site-footer {
+    background-color: var(--dark-blue);
+    color: white;
+    margin-top: 2rem;
+}
+
+/* Footer layout */
+.footer-inner {
+    padding: 1rem;
+}
+
+/* Footer list */
+.footer-list {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Footer title */
+.footer-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Footer buttons */
+.site-footer a {
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+}
+
+/* Logout button */
+.logout-button {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Reuse login button style */
+.site-footer .login-button {
+    background-color: var(--light-blue);
+}
+
+/* Mobile polish */
+@media (max-width: 480px) {
+    .footer-list {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+}

@@ -1,6 +1,17 @@
-<footer>
-    <li class="title">دوراتي</li>
-    {% if request.user.is_verified %}
-    <li class="logout-button"><a href=""></a></li>
-    {% endif %}
+<footer class="site-footer">
+    <div class="footer-inner">
+        <ul class="footer-list">
+            <li class="footer-title">دوراتي</li>
+
+            {% if request.user.is_verified %}
+                <li>
+                    <a class="logout-button" href="">تسجيل الخروج</a>
+                </li>
+            {% else %}
+                <li>
+                    <a class="login-button" href="">تسجيل الدخول</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
 </footer>
