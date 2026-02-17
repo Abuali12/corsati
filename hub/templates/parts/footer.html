@@ -3,13 +3,16 @@
         <ul class="footer-list">
             <li class="footer-title">دوراتي</li>
 
-            {% if request.user.is_verified %}
+            {% if request.user.is_authenticated %}
                 <li>
-                    <a class="logout-button" href="">تسجيل الخروج</a>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="log-button">logout</button>
+                    </form>
                 </li>
             {% else %}
                 <li>
-                    <a class="login-button" href="">تسجيل الدخول</a>
+                    <a class="log-button" href="">تسجيل الدخول</a>
                 </li>
             {% endif %}
         </ul>

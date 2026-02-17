@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'centers.apps.CentersConfig',
     'courses.apps.CoursesConfig',
+    'accounts.apps.AccountsConfig',
 
     # all-auth
     'django.contrib.sites',
