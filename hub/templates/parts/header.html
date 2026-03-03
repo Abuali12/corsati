@@ -2,7 +2,7 @@
     <div class="header-inner">
 
         <h1 class="title">
-            <a href="/">دوراتي</a>
+            <a href="{% url 'index' %}">دوراتي</a>
         </h1>
 
         <nav>
@@ -12,11 +12,16 @@
                 <li><a href="{% url 'centers' %}">المراكز</a></li>
 
 
-                {% if request.user.is_authenticated %}
-                    <li class="user-button">{{ request.user.username }}</li>
+                {% if user.is_authenticated %}
+                    {% if user.working_centers.exists %}
+                    <li><a href="{% url 'center_dashboard' user.working_centers.slug %}">مركزي</a></li>
+                    {% elif user.owned_centers.exists %}
+                    <li><a href="{% url 'center_dashboard' user.owned_centers.slug %}">مركزي</a></li>
+                    {% endif %}
+                    <li class="user-button">{{ user.username }}</li>
                 {% else %}
                     <li>
-                        <a class="login-button" href="">تسجيل الدخول</a>
+                        <a class="login-button" href="{% url 'login' %}">تسجيل الدخول</a>
                     </li>
                 {% endif %}
             </ul>

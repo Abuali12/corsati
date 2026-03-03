@@ -7,12 +7,12 @@
                 <li>
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}
-                        <button type="submit" class="log-button">logout</button>
+                        <button type="submit" class="log-button">تسجيل الخروج</button>
                     </form>
                 </li>
             {% else %}
                 <li>
-                    <a class="log-button" href="">تسجيل الدخول</a>
+                    <a class="log-button" href="{% url 'login' %}">تسجيل الدخول</a>
                 </li>
             {% endif %}
         </ul>

@@ -2,13 +2,55 @@
 {% load static %}
 
 {% block title %}
+{{course.title}}
 {% endblock title%}
 
 {% block styles %}
 {% endblock styles%}
 
 {% block content %}
+
+{% if course.image %}
+    <img src="" alt="صورة الدورة">
+{% endif %}
+
+
 <h2> {{course.title}} </h2>
-<h3><a href="{% url 'center' course.center.slug%}"> {{course.center}}</a></h3>
+<h3>مقدم من: <a href="{% url 'center' course.center.slug%}"> {{course.center}}</a></h3>
+
+<dl>
+    <dt>مجالات الدورة: </dt>
+    {% for subject in center.subjects.all %}
+        <dd>- {{subject.title}}</dd>
+    {% endfor %}
+
+    <dt>مخرجات الدورة: </dt>
+    <dd>{{coures.learning_outcomes}}</dd>    
+    
+    <dt>مدة الدورة: </dt>
+    <dd> {{course.length }} </dd>
+    
+    <dt>نوع الدورة: </dt>
+    <dd> {{course.get_course_type_display}} </dd>
+
+    {% if course.address %}
+
+        <dt>المكان: </dt>
+        <dd> {{course.address}} </dd>
+
+    {% endif %}
+
+    {% if course.online_platform %}
+
+        <dt>المنصة: </dt>
+        <dd> {{course.online_platform}} </dd>
+
+    {% endif %}
+    
+    {% if course.installment_available %}
+        <dt>يمكن التقسيط: </dt>
+        <dd> {{course.installment_details }} </dd>
+    {% endif %}
+</dl>
 
 {% endblock content %}

@@ -6,16 +6,141 @@
 
 {% block styles %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="{% static 'core/css/centers/center.css' %}">
 {% endblock styles%}
 
 {% block content %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
 </script>
-<img src="" alt="center logo">
-<h2> {{center.title}} </h2>
+<div class="center-page">
 
-<div id="map" style="height: 400px;">
+  <section class="center-header">
+        {% if center.logo %}
+        <div class="center-logo">
+            <img src="{{ center.logo.url}}" alt="center logo">
+        </div>
+        {% endif %}
+
+        <div class="center-info">
+            <h2>{{ center.title }}</h2>
+
+            <div class="dashboard-actions">
+                <a href="{% url 'edit_center' center_slug=center.slug %}" class="btn-secondary">
+                    تعديل المركز
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="center-map">
+        <div id="map"></div>
+    </section>
+
+<section class="center-details">
+
+    <!-- Description -->
+    {% if center.discription %}
+    <div class="center-description">
+        <h3>وصف المركز</h3>
+        <p>{{ center.discription }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Subjects -->
+    {% if center.subjects.all %}
+    <div class="center-subjects">
+        <h3>مجالات المركز</h3>
+        <div class="subject-tags">
+            {% for subject in center.subjects.all %}
+                <span class="subject-tag">{{ subject.title }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Location Info -->
+    <div class="center-location">
+        <h3>العنوان</h3>
+        <p>{{ center.address }}, {{ center.state.title }}</p>
+    </div>
+
+    <!-- Contact Info (Optional) -->
+    {% if center.contact_email or center.contact_phone or center.website %}
+    <div class="center-contact">
+        <h3>معلومات التواصل</h3>
+        <ul>
+            {% if center.contact_phone %}
+                <li>📞 {{ center.contact_phone }}</li>
+            {% endif %}
+            {% if center.contact_email %}
+                <li>✉️ {{ center.contact_email }}</li>
+            {% endif %}
+            {% if center.website %}
+                <li>🌐 <a href="{{ center.website }}" target="_blank">{{ center.website }}</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+
+</section>
+
+
+   <section class="courses-section">
+
+        <div class="section-header">
+            <h3>الدورات</h3>
+            <a href="{% url 'add_course' center_slug=center.slug %}" class="btn-primary">
+                إضافة دورة
+            </a>
+        </div>
+
+        <div class="course-list">
+            {% for course in courses %}
+            <div class="course-card">
+
+                <a href="{% url 'course' course.id %}" class="course-link">
+
+                    {% if course.image %}
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                    {% endif %}
+                    <h3 class="course-title">{{ course.title }}</h3>
+                </a>
+                                    
+                <div class="course-type">
+                    {% if course.course_type == 'in_person'%}
+                        حضوري:  {{ course.address }}
+                    {% elif course.course_type == 'online' %}
+                        اونلاين:  {{course.online_platform}}
+                    {% else %}
+                        حضوري و اونلاين
+                    {% endif %}
+                </div>
+
+            <p class="course-description">
+                {{ course.short_discription }}
+            </p>
+
+            <div class="course-price">
+                {{ course.price }} {{course.get_currency_display}}
+            </div>
+
+
+
+                <!-- Dashboard Controls -->
+                <div class="course-actions">
+                    <a href="{% url 'edit_course' course.id %}">تعديل</a>
+                    <a href="{% url 'delete_course' course.id %}" class="danger">حذف</a>
+                </div>
+
+            </div>
+            {% empty %}
+            <p class="empty-message">لا توجد دورات حالياً.</p>
+            {% endfor %}
+        </div>
+
+    </section>
+
 
 </div>
 
@@ -29,43 +154,5 @@
     .bindPopup("<b>{{center.title}}</b>");
 
 </script>
-
-
-<div class="edit_center">
-    <a href="{% url 'edit_center' center.slug %}"><button>edit</button></a>
-</div>
-
-<div class="course_list">
-    {% for course in courses %}
-    <div class="course-card">
-        <a href="{% url 'course' course.slug%}">
-            {% if course.image %}
-            <img src="" alt="">
-            {% endif %}
-            <h3>{{ course.title }}</h3>
-            {% if coures.course_type == 'in_person'%}
-            <h4>حضوري</h4>
-            <h5>{{ course.addres }}</h5>
-            {% elif course.course_type == 'online' %}
-            <h4>اونلاين</h4>
-            <h5> {{course.platform}} </h5>
-            {% else %}
-            <h4>حضوري و اونلاين</h4>
-            <h5>{{ course.address }}</h5>
-            <h5> {{course.online_platform}} </h5>
-            {% endif %}
-
-            <p>{{ course.short_discription }}</p>
-            <p>{{ course.price }}</p>
-        </a>
-    </div>
-    <a href="{% url 'edit_course' course.slug %}">تعديل</a>
-    <a href="{% url 'delete_course' course.slug %}">حذف</a>
-    {% endfor %}
-</div>
-
-<div class="add_course">
-    لديك دورة ترغب في إضافتها؟ <a href="{% url 'add_course' center.slug %}">اضغط هنا</a>
-</div>
 
 {% endblock content %}

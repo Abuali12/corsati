@@ -1,5 +1,47 @@
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">login</button>
-</form>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+</head>
+<body>
+    <div>
+        <h1>كورساتي</h1>
+        <h2>تسجيل الدخول</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div>
+                <label>البريد الإلكتروني</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                    <span class="error">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div>
+                <label>كلمة السر</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                    <span class="error">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                {% for error in form.non_field_errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}  
+                </div> 
+            {% endif %}
+               
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+        <p>ليس لديك حساب؟ <a href="{% url 'signup' %}">أنشأ حسابا</a></p>
+    </div>
+</body>
+</html>

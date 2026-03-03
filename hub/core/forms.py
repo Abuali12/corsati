@@ -12,7 +12,6 @@ class CenterForm(forms.ModelForm):
         }
     
 
-
 class CourseForm(forms.ModelForm):
     class Meta:
         model= Course
@@ -33,3 +32,4 @@ class StateForm(forms.ModelForm):
     class Meta:
         model= State
         fields= '__all__'
+

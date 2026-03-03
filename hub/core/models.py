@@ -38,6 +38,7 @@ class Center(models.Model):
     subjects= models.ManyToManyField(Subject, related_name='centers', verbose_name='مجالات المركز')
 
     is_verified= models.BooleanField(default=False, verbose_name='معرف')
+    is_deleted= models.BooleanField(default=False, verbose_name='محذوف')
     is_active= models.BooleanField(default=True, verbose_name='نشط')
     is_featured= models.BooleanField(default=False, verbose_name='مميز')
 
@@ -65,7 +66,7 @@ class Center(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base_slug = slugify(self.name, allow_unicode=True)
+            base_slug = slugify(self.title, allow_unicode=True)
             slug = base_slug
             counter = 1
 
@@ -115,7 +116,7 @@ class Course(models.Model):
         ('EGB','جنيه مصري'),
     )
 
-    price= models.DecimalField(max_digits=20, decimal_places=4, verbose_name='السعر')
+    price= models.DecimalField(max_digits=20, decimal_places=2, verbose_name='السعر')
     currency= models.CharField(max_length=20, choices=CURRENCIES, verbose_name='العملة')
     installment_available= models.BooleanField(default=False, verbose_name='يتوفر التقسيط')
     installment_details= models.TextField(verbose_name='تفاصيل التقسيط', blank=True, null=True)
@@ -124,7 +125,7 @@ class Course(models.Model):
 
     TYPE= (
         ('in_person','حضوري'),
-        ('onine','أونلاين'),
+        ('online','أونلاين'),
         ('hybrid','حضوري وأونلاين'),
     )
     course_type= models.CharField(choices=TYPE, max_length=30, verbose_name='نوع الدورة')
@@ -149,7 +150,7 @@ class Course(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base_slug = slugify(self.name, allow_unicode=True)
+            base_slug = slugify(self.title, allow_unicode=True)
             slug = base_slug
             counter = 1
 

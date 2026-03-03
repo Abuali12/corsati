@@ -6,7 +6,7 @@
 
 {% block styles %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
+<link rel="stylesheet" href="{% static 'core/css/centers/centers.css' %}">
 {% endblock styles%}
 
 {% block content %}
@@ -14,29 +14,80 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
 </script>
 
-    <div class="filters">
-        <form method="get">
-            <label for="search">البحث</label>
+<div class="centers-page">
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <form method="get" class="filters-form">
 
-            <button type="submit">بحث</button>
+            <input type="text" name="q" placeholder="البحث بالاسم" value="{{request.GET.q}}" class="input">
+
+            <select name="state" class="input">
+                <option value="">الولاية - الكل</option>
+                {% for state in states %}
+                <option value="{{state.id}}" 
+                {%if request.GET.state == state.id|stringformat:'s' %}selected{% endif %}>
+                {{state.title}}
+                </option>
+                {% endfor %}
+            </select>
+
+            <select name="subject" class="input">
+                <option value="">المجال - الكل</option>
+                {% for subject in subjects %}
+                <option value="{{subject.id}}"
+                {%if request.GET.subject == subject.id|stringformat:'s' %}selected{% endif %}>
+                {{subject.title}}
+                </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn-primary">بحث</button>
         </form>
-        <!-- <form action="{% url 'clear_center' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">الكل</button>
-        </form> -->
-    </div>
 
-    <div id="map" style="height: 400px;"></div>
-    <div class="centers_list">
+        <form action="{% url 'clear_center' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-secondary full-width">
+                تصفية البحث
+            </button>
+        </form>
+    </section>
+
+    <section class="map-section">
+        <div id="map"></div>
+    </section>
+
+    
+    <section class="centers-list">
         {% for center in centers %}
-        <div>
-            <h3><a href="{% url 'center' center.slug %}">{{ center.title}}</a></h3>
-            {% for subject in center.subjects_set.alls %}
-            <li> {{subject.title}} </li>
-            {% endfor %}
+        <div class="center-card">
+
+
+                <a href="{% url 'center' center.slug %}">
+                    {% if center.logo %}
+                        <img src="{{ center.logo.url }}" alt="">
+                    {% endif %}
+
+                    <h3 class="center-title">{{ center.title }}</h3>
+                </a>
+
+
+            
+            <div class="subjects">
+                {% for subject in center.subjects.all %}
+                <span class="subject-tag">{{subject.title}}</span>
+                {% endfor %}
+            </div>
+
+            <p class="address">
+                {{center.address}}
+            </p>
+
         </div>
+
+        {% empty %}
+            <p class="empty-message">لا توجد مراكز مطابقة للبحث.</p>
         {% endfor %}
-    </div>
+    </section>
     
 
     <script>
@@ -64,11 +115,13 @@
     </script>
 
 
-<br>
-<br>
 
-<div class="add-center">
-    <!-- <p>لديك موقع تريد إضافته؟<a href="{% url 'add_center' %}">اضغط هنا</a></p> -->
+    <section class="add-center">
+        <a href="{% url 'add_center' %}" class="add-center-link">
+            لديك موقع تريد إضافته؟ اضغط هنا
+        </a>
+    </section>
+
 </div>
-
 {% endblock content %}
+

@@ -2,44 +2,127 @@
 {% load static %}
 
 {% block title %}
-{% endblock title%}
+{{ title }}
+{% endblock title %}
 
 {% block styles %}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-{% endblock styles%}
+<style>
+    .form-page { max-width: 700px; margin: auto; padding: 1rem; }
+    .form-header h2 { text-align: center; margin-bottom: 1rem; font-size: 1.8rem; }
+    .form-info-box { background: #f0f4f8; padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center; }
+
+    /* Form Card */
+    .form-card { background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 0 6px rgba(0,0,0,0.1); }
+
+    /* Fields */
+    .field-group { margin-bottom: 1.5rem; }
+    .field-group legend { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .form-field { margin-bottom: 1rem; }
+    .form-field label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+    .form-field input, .form-field textarea, .form-field select { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+    .field-error { color: red; font-size: 0.9rem; margin-top: 0.2rem; }
+    .help-text { font-size: 0.85rem; color: #666; }
+
+    /* Map */
+    #map { height: 400px; border-radius: 8px; margin-top: 0.5rem; }
+    .map-hint { font-size: 0.85rem; color: #555; margin-top: 0.2rem; }
+
+    .form-actions { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    button.btn-primary { background: #007bff; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 5px; cursor: pointer; }
+    button.btn-primary:hover { background: #0056b3; }
+    a.btn-secondary { background: #ccc; color: #333; padding: 0.6rem 1.2rem; border-radius: 5px; text-decoration: none; text-align: center; display: inline-block; }
+    a.btn-secondary:hover { background: #aaa; }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<link rel="stylesheet" href="{% static 'core/css/centers/add-edit-center.css' %}">
+{% endblock styles %}
 
 {% block content %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
 </script>
 
-<h2> add edit center</h2>
+<div class="form-page">
 
-<div>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="field-group">
-            <legend>معلومات الموقع</legend>
-            {{ form.as_p }}
-        </div>
-
-        <div class="field-group">
-            <legend>تحديد الموقع الجغرافي</legend>
-    
-            <!-- Coordinates display (optional) -->
-    
-            <div id="map" style="height: 400px;">jhafihae</div>
-            <p>انقر على الخريطة لتحديد موقع الموقع الجغرافي</p>
-    
-
-        </div>
-    
-        <button type="submit">إضافة المركز</button>
-        <a href="{% url 'centers' %}" class="cancel-btn">إلغاء</a>
-    </form>
+    <div class="form-header">
+        <h2>{{ title }}</h2>
     </div>
-    
-    <script>
+
+    <!-- Info Box (Reusable for hints later) -->
+    <div class="form-info-box">
+        <p>
+            هنا يمكنك إدخال معلومات المركز. تأكد من إدخال البيانات بدقة.
+        </p>
+    </div>
+
+    <div class="form-card">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-error-box">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+            <!-- Basic Info -->
+            <fieldset class="field-group">
+                <legend>معلومات المركز</legend>
+
+                {% for field in form.visible_fields %}
+
+                        <div class="form-field">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                            <small class="help-text">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                            <div class="field-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                {% endfor %}
+
+                
+                {{ form.latitude }}
+                {{ form.longitude }}
+            </fieldset>
+
+            <!-- Map Section -->
+            <fieldset class="field-group">
+                <legend>تحديد الموقع الجغرافي</legend>
+
+                <div id="map"></div>
+                <p class="map-hint">
+                    انقر على الخريطة لتحديد موقع المركز.
+                </p>
+            </fieldset>
+
+
+            <!-- Buttons -->
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    حفظ
+                </button>
+
+                <a href="{% url 'centers' %}" class="btn-secondary">
+                    إلغاء
+                </a>
+            </div>
+
+        </form>
+
+        {% if form.errors %}
+            <div class="form-error-box">
+                يرجى تصحيح الأخطاء أدناه.
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+    <script>        
         var map = L.map('map').setView([19.6, 37.22], 13);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -50,24 +133,20 @@
 
 
         function onMapClick(e) {
-            const lat = e.latlng.lat;
-            const long = e.latlng.lng;
+            const latitude = e.latlng.lat;
+            const longitude = e.latlng.lng;
 
-            document.getElementById('id_latitude').value = lat;
+            document.getElementById('id_latitude').value = latitude;
 
-            document.getElementById('id_longitude').value = long;
+            document.getElementById('id_longitude').value = longitude;
 
             if (marker) {
                 map.removeLayer(marker);
             }
-            marker = L.marker([lat, long]).addTo(map);
+            marker = L.marker([latitude, longitude]).addTo(map);
         }
 
         map.on('click', onMapClick);
 
     </script>
-    
-</div>
-
-
 {% endblock content %}

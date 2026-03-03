@@ -11,38 +11,86 @@
 {% block content %}
 <h2>الدورات</h2>
 
-<form method="post" class="course-filter">
-    {% csrf_token %}
+<h3>البحث</h3>
+
+<form method="get" class="course-filter">
+
+
+    <input type="text" name="q" placeholder="بحث بالاسم" value="{{request.GET.q}}">
+
+
+    <label for="subject">المجال</label>
+
+    <select name="subject" id="subject">
+
+        <option value="">الكل</option>
+
+        {% for subject in subjects %}
+        <option value="{{subject.id}}"
+        {%if request.GET.subject == subject.id|stringformat:'s' %}selected{% endif %}>{{subject.title}}</option>
+        {% endfor %}
+
+    </select>
+
+    <label for="type">نوع الدورة</label>
+    <select name="type" id="type">
+
+        <option value="">الكل</option>
+
+        {% for value, option in type%}
+
+        <option value="{{value}}"
+        {% if request.GET.type == value %} selected {% endif %}> {{option}} </option>
+
+        {% endfor %}
+
+    </select>
+
+    <label for="price">price</label>
+    <input type="number" name="price" id="price" placeholder="max price" value="{{request.GET.price}}">
 
     <button type="submit">بحث</button>
-    <form action="{% url 'clear_course' %}" method="post">
-        <button type="submit">الكل</button>
-    </form>
+
 </form>
+
+
+<form action="{% url 'clear_course' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">تصفية البحث</button>
+</form>
+
+<br>
 
 {% for course in courses %}
 
 <div class="course-card">
-    <a href="{% url 'course' course.slug%}">
         {% if course.image %}
         <img src="" alt="">
         {% endif %}
-        <h3>{{ course.title }}</h3>
-        {% if coures.course_type == 'in_person'%}
-        <h4>حضوري</h4>
-        <h5>{{ course.addres }}</h5>
-        {% elif course.course_type == 'online' %}
-        <h4>اونلاين</h4>
-        <h5> {{course.platform}} </h5>
-        {% else %}
-        <h4>حضوري و اونلاين</h4>
-        <h5>{{ course.address }}</h5>
-        <h5> {{course.online_platform}} </h5>
-        {% endif %}
+        <dl>
+            <a href="{% url 'course' course.slug%}">
+                <h4>{{ course.title }}</h4>    
+            </a>
 
-        <p>{{ course.short_discription }}</p>
-        <p>{{ course.price }}</p>
-    </a>
+            <h4>مقدم من: {{ course.center.title }}</h4>
+
+            <dt>نوع الدورة: </dt>
+            <dd> {{course.get_course_type_display}} </dd>
+
+
+
+            <p>{{ course.short_discription }}</p>
+
+            <dt class="price">السعر: </dt>
+            <dd>{{ course.price }} {{course.get_currency_display}}</dd>
+
+            {% if course.installment_available %}
+                <p class="insstallment">يمكن التقسيط</p>
+            {% endif %}
+        </dl>
+
+
+    <br>
 </div>
 {% endfor %}    
 
