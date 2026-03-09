@@ -3,5 +3,5 @@ services:
     name: courses-hub
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r hub/requirements.txt
     startCommand: gunicorn hub.wsgi
