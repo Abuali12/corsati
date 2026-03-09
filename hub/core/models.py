@@ -168,12 +168,18 @@ class Course(models.Model):
 
 class Lead(models.Model):
     student_name= models.CharField(max_length=200, verbose_name='الاسم')
-    student_email= models.EmailField(verbose_name='البريد الالكتروني')
+    student_phone= models.CharField(max_length=30, verbose_name='رقم الهاتف', blank= True, null=True)
+    student_email= models.EmailField(verbose_name='البريد الالكتروني', blank=True, null= True)
     note= models.TextField(verbose_name='تعليق', blank=True, null=True)
-    course= models.ForeignKey(Course, on_delete=models.CASCADE, related_name='leads', verbose_name='الدورة')
-    center= models.ForeignKey(Center, on_delete=models.CASCADE, related_name='leads', verbose_name='المركز')
+    course= models.ForeignKey(Course, on_delete=models.PROTECT, related_name='leads', verbose_name='الدورة')
+    center= models.ForeignKey(Center, on_delete=models.PROTECT, related_name='leads', verbose_name='المركز')
     created_at= models.DateField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
 
+    TYPE_CHOICES = [
+        ('course', 'Course Enrollment'),
+        ('center', 'General Center Contact'),
+    ]
+    lead_type = models.CharField(max_length=10, choices=TYPE_CHOICES, default='course')
     class Meta:
         verbose_name='الدليل'
         verbose_name_plural='الأدلة'

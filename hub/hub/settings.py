@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 from dotenv import load_dotenv
 load_dotenv(BASE_DIR / '.env')
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dhhdbacflyerl')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 SITE_ID= int(os.environ.get('SITE_ID', 1)) 
 
@@ -68,8 +68,9 @@ AUTHENTICATION_BACKEND= [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
-ACCOUNT_AUTHENTICATION_METHOD='username'
+
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+ACCOUNT_LOGIN_METHOD= {'email'}
 LOGIN_REDIRECT_URL= 'index'
 LOGOUT_REDIRECT_URL= 'index'
 ACCOUNT_LOGOUT_REDIRECT_URL= 'index'
@@ -78,7 +79,11 @@ ACCOUNT_ERROR_REDIRECT_URL= 'signup'
 SOCIALACCOUNT_LOGIN_ON_GET= True
 ACCOUNT_LOGOUT_ON_GET= True
 
-
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+ 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -87,6 +92,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'allauth.account.middleware.AccountMiddleware',
 ]
 
@@ -156,7 +164,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL= '/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')

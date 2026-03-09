@@ -21,7 +21,7 @@ class CourseForm(forms.ModelForm):
 class LeadForm(forms.ModelForm):
     class Meta:
         model= Lead
-        fields= ['student_name', 'student_email', 'note']
+        fields= ['student_name', 'student_phone', 'student_email', 'note']
 
 class SubjectForm(forms.ModelForm):
     class Meta:

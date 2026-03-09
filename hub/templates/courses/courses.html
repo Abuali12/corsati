@@ -6,92 +6,135 @@
 {% endblock title%}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'core/css/courses/courses.css' %}">
 {% endblock styles%}
 
 {% block content %}
-<h2>الدورات</h2>
 
-<h3>البحث</h3>
+<div class="courses-page">
 
-<form method="get" class="course-filter">
+    <h2 class="page-title">الدورات</h2>
 
+    <!-- ================= FILTER SECTION ================= -->
 
-    <input type="text" name="q" placeholder="بحث بالاسم" value="{{request.GET.q}}">
+<div class="filter-wrapper">
 
+    <form method="get" class="filter-form">
 
-    <label for="subject">المجال</label>
+        <div class="filter-row">
 
-    <select name="subject" id="subject">
+            <div class="filter-field search-field">
+                <input type="text"
+                       name="q"
+                       placeholder="🔍 بحث باسم الدورة"
+                       value="{{ request.GET.q }}">
+            </div>
 
-        <option value="">الكل</option>
+            <div class="filter-field">
+                <label for="subject">المجال</label>
+                <select name="subject" id="subject">
+                    <option value="">الكل</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}"
+                        {% if request.GET.subject == subject.id|stringformat:'s' %}
+                            selected
+                        {% endif %}>
+                            {{ subject.title }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        {% for subject in subjects %}
-        <option value="{{subject.id}}"
-        {%if request.GET.subject == subject.id|stringformat:'s' %}selected{% endif %}>{{subject.title}}</option>
-        {% endfor %}
+            <div class="filter-field">
+                <label for="type">نوع الدورة</label>
+                <select name="type" id="type">
+                    <option value="">الكل</option>
+                    {% for value, option in type %}
+                        <option value="{{ value }}"
+                        {% if request.GET.type == value %}
+                            selected
+                        {% endif %}>
+                            {{ option }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-    </select>
+            <div class="filter-field">
+                <label for="price">أقصى سعر</label>
+                <input type="number"
+                       name="price"
+                       id="price"
+                       placeholder="مثال: 500"
+                       value="{{ request.GET.price }}">
+            </div>
 
-    <label for="type">نوع الدورة</label>
-    <select name="type" id="type">
+        </div>
 
-        <option value="">الكل</option>
+        <div class="filter-actions">
+            <button type="submit" class="btn-search">بحث</button>
+            <a href="{% url 'courses' %}" class="btn-clear">إعادة تعيين</a>
+        </div>
 
-        {% for value, option in type%}
+    </form>
 
-        <option value="{{value}}"
-        {% if request.GET.type == value %} selected {% endif %}> {{option}} </option>
+</div>
+<!-- ==========  courses list ================= -->
 
-        {% endfor %}
+    <div class="courses-grid">
 
-    </select>
+        {% for course in courses %}
 
-    <label for="price">price</label>
-    <input type="number" name="price" id="price" placeholder="max price" value="{{request.GET.price}}">
+        <div class="course-card">
 
-    <button type="submit">بحث</button>
+            <a href="{% url 'course' course.slug %}" class="course-link">
 
-</form>
+                {% if course.image %}
+                    <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                {% else  %}
+                    <img src="../../core/static/core/imgs/course_placeholder.jpeg" alt="">
+                {% endif %}
 
+                <h3 class="course-title">{{ course.title }}</h3>
 
-<form action="{% url 'clear_course' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">تصفية البحث</button>
-</form>
-
-<br>
-
-{% for course in courses %}
-
-<div class="course-card">
-        {% if course.image %}
-        <img src="" alt="">
-        {% endif %}
-        <dl>
-            <a href="{% url 'course' course.slug%}">
-                <h4>{{ course.title }}</h4>    
             </a>
 
-            <h4>مقدم من: {{ course.center.title }}</h4>
+            <p class="course-provider">
+                مقدم من:
+                <strong>{{ course.center.title }}</strong>
+            </p>
 
-            <dt>نوع الدورة: </dt>
-            <dd> {{course.get_course_type_display}} </dd>
+            <p class="course-type">
+                نوع الدورة:
+                {{ course.get_course_type_display }}
+            </p>
 
+            <p class="course-description">
+                {{ course.short_discription }}
+            </p>
 
+            <div class="course-footer">
 
-            <p>{{ course.short_discription }}</p>
+                <span class="course-price">
+                    {{ course.price }} {{ course.get_currency_display }}
+                </span>
 
-            <dt class="price">السعر: </dt>
-            <dd>{{ course.price }} {{course.get_currency_display}}</dd>
+                {% if course.installment_available %}
+                    <span class="installment-badge">
+                        يمكن التقسيط
+                    </span>
+                {% endif %}
 
-            {% if course.installment_available %}
-                <p class="insstallment">يمكن التقسيط</p>
-            {% endif %}
-        </dl>
+            </div>
 
+        </div>
 
-    <br>
+        {% empty %}
+            <p class="no-results">لا توجد دورات مطابقة لبحثك.</p>
+        {% endfor %}
+
+    </div>
+
 </div>
-{% endfor %}    
 
 {% endblock content %}

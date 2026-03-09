@@ -2,55 +2,157 @@
 {% load static %}
 
 {% block title %}
-{{course.title}}
-{% endblock title%}
+{{ course.title }}
+{% endblock title %}
 
 {% block styles %}
-{% endblock styles%}
+<link rel="stylesheet" href="{% static 'core/css/courses/course.css' %}">
+{% endblock styles %}
 
 {% block content %}
 
-{% if course.image %}
-    <img src="" alt="صورة الدورة">
-{% endif %}
+<div class="course-detail">
+
+    <!-- ===== HERO SECTION ===== -->
+    <div class="course-hero">
+
+        {% if course.image %}
+            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-hero-image">
+        {% endif %}
+
+        <div class="course-hero-info">
+            <h1>{{ course.title }}</h1>
+
+            <p class="course-provider">
+                مقدم من:
+                <a href="{% url 'center' course.center.slug %}">
+                    {{ course.center.title }}
+                </a>
+            </p>
+
+            <div class="course-price-box">
+                <span class="price">
+                    {{ course.price }} {{ course.get_currency_display }}
+                </span>
+
+                {% if course.installment_available %}
+                    <span class="installment-badge">
+                        يمكن التقسيط
+                    </span>
+                {% endif %}
+
+            <button id="openEnrollModal" class="enroll-btn">
+                طلب التسجيل
+            </button>
+            </div>
+
+        </div>
+    </div>
 
 
-<h2> {{course.title}} </h2>
-<h3>مقدم من: <a href="{% url 'center' course.center.slug%}"> {{course.center}}</a></h3>
+    <!-- ===== COURSE DETAILS ===== -->
+    <div class="course-sections">
 
-<dl>
-    <dt>مجالات الدورة: </dt>
-    {% for subject in center.subjects.all %}
-        <dd>- {{subject.title}}</dd>
-    {% endfor %}
+        <div class="course-section">
+            <h3>تفاصيل الدورة</h3>
+            <p>{{ course.details|linebreaksbr }}</p>
+        </div>
 
-    <dt>مخرجات الدورة: </dt>
-    <dd>{{coures.learning_outcomes}}</dd>    
-    
-    <dt>مدة الدورة: </dt>
-    <dd> {{course.length }} </dd>
-    
-    <dt>نوع الدورة: </dt>
-    <dd> {{course.get_course_type_display}} </dd>
+        {% if course.learning_outcomes %}
+        <div class="course-section">
+            <h3>مخرجات الدورة</h3>
+            <p>{{ course.learning_outcomes|linebreaksbr }}</p>
+        </div>
+        {% endif %}
 
-    {% if course.address %}
+        <div class="course-section">
+            <h3>تفاصيل الدورة</h3>
 
-        <dt>المكان: </dt>
-        <dd> {{course.address}} </dd>
+            <ul class="details-list">
 
-    {% endif %}
+                <li>
+                    <strong>المدة:</strong>
+                    {{ course.length }}
+                </li>
 
-    {% if course.online_platform %}
+                <li>
+                    <strong>نوع الدورة:</strong>
+                    {{ course.get_course_type_display }}
+                </li>
 
-        <dt>المنصة: </dt>
-        <dd> {{course.online_platform}} </dd>
+                {% if course.address %}
+                <li>
+                    <strong>المكان:</strong>
+                    {{ course.address }}
+                </li>
+                {% endif %}
 
-    {% endif %}
-    
-    {% if course.installment_available %}
-        <dt>يمكن التقسيط: </dt>
-        <dd> {{course.installment_details }} </dd>
-    {% endif %}
-</dl>
+                {% if course.online_platform %}
+                <li>
+                    <strong>المنصة:</strong>
+                    {{ course.online_platform }}
+                </li>
+                {% endif %}
 
-{% endblock content %}
+                {% if course.installment_available %}
+                <li>
+                    <strong>تفاصيل التقسيط:</strong>
+                    {{ course.installment_details|linebreaksbr }}
+                </li>
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+        {% if course.subjects.all %}
+        <div class="course-section">
+            <h3>مجالات الدورة</h3>
+            <div class="subject-tags">
+                {% for subject in course.subjects.all %}
+                    <span class="subject-tag">{{ subject.title }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<div id="enrollModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="close-btn" id="closeEnrollModal">&times;</button>
+        <h3>طلب تسجيل في الدورة</h3>
+
+        <form method="POST" action="{% url 'course_lead' course.slug %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="modal-actions">
+                <button type="submit" class="submit-btn">إرسال الطلب</button>
+                <button type="button" class="cancel-btn" id="cancelEnroll">إلغاء</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const modal = document.getElementById("enrollModal");
+const openBtn = document.getElementById("openEnrollModal");
+const closeBtn = document.getElementById("closeEnrollModal");
+const cancelBtn = document.getElementById("cancelEnroll");
+
+openBtn.onclick = () => modal.style.display = "flex";
+closeBtn.onclick = () => modal.style.display = "none";
+cancelBtn.onclick = () => modal.style.display = "none";
+
+window.onclick = function(e) {
+    if (e.target === modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+{% endblock %}

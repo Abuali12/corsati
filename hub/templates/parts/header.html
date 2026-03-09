@@ -14,9 +14,9 @@
 
                 {% if user.is_authenticated %}
                     {% if user.working_centers.exists %}
-                    <li><a href="{% url 'center_dashboard' user.working_centers.slug %}">مركزي</a></li>
+                    <li><a href="{% url 'center_dashboard' user.working_centers.first.slug%}">مركزي</a></li>
                     {% elif user.owned_centers.exists %}
-                    <li><a href="{% url 'center_dashboard' user.owned_centers.slug %}">مركزي</a></li>
+                    <li><a href="{% url 'center_dashboard' user.owned_centers.first.slug %}">مركزي</a></li>
                     {% endif %}
                     <li class="user-button">{{ user.username }}</li>
                 {% else %}
