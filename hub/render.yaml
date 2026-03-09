@@ -4,4 +4,4 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r hub/requirements.txt
-    startCommand: gunicorn hub.wsgi
+    startCommand: gunicorn hub.hub.wsgi
