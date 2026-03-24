@@ -1,7 +1,22 @@
+databases:
+  - name: mysitedb
+    plan: free
+    databaseName: mysite
+    user: mysite
+
 services:
   - type: web
-    name: courses-hub
-    env: python
     plan: free
-    buildCommand: pip install -r hub/requirements.txt
-    startCommand: gunicorn hub.hub.wsgi
+    name: course_hub
+    runtime: python
+    buildCommand: './build.sh'
+    startCommand: 'python -m gunicorn hub.asgi:application -k uvicorn.workers.UvicornWorker'
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mysitedb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4

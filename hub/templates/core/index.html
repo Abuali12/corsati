@@ -2,34 +2,40 @@
 {% load static %}
 
 {% block title %}
-index
+الرئيسية
 {% endblock title%}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'core/css/index.css' %}">
 {% endblock styles%}
 
 {% block content %}
-<h1>دوراتي</h1>
-<main>
-<div class="feature-card">
-    <a href="{% url 'centers' %}">
-        <img src="" alt="centers logo">
-        <dl>
-            <dt>المراكز</dt>
-            <dd>تعرف على المراكز من حولك</dd>
-        </dl>
-    </a>
-</div>
-<p></p>
-<div class="feature-card">
-    <a href="{% url 'courses' %}">
-        <img src="" alt="courses logo">
-        <dl>
-            <dt>الدورات</dt>
-            <dd>تعرف على الدورات من حولك</dd>
-        </dl>
-    </a>
-</div>
-</main>
+
+
+<h1>كورساتي</h1>
+
+    <main class="features">
+
+        <div class="feature-card">
+            <a href="{% url 'centers' %}">
+                <img src="{% static 'core/imgs/map.png' %}" alt="centers logo">
+                <dl>
+                    <dt>المراكز</dt>
+                    <dd>تعرف على المراكز من حولك</dd>
+                </dl>
+            </a>
+        </div>
+
+
+        <div class="feature-card">
+            <a href="{% url 'courses' %}">
+                <img src="{% static 'core/imgs/book.png' %}" alt="courses logo">
+                <dl>
+                    <dt>الدورات</dt>
+                    <dd>تعرف على الدورات من حولك</dd>
+                </dl>
+            </a>
+        </div>
+    </main>
 
 {% endblock content %}

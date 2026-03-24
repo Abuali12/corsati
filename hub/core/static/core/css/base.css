@@ -54,34 +54,8 @@ h1, h2, h3, h4 {
     margin-bottom: 0.5rem;
 }
 
-/* Buttons */
-.btn {
-    display: inline-block;
-    padding: 0.6rem 1.2rem;
-    background-color: var(--light-blue);
-    color: white;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    text-align: center;
-}
 
-.btn:hover {
-    background-color: #1576d1;
-}
 
-/* Cards (you WILL use this a lot) */
-.card {
-    background-color: var(--white);
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-/* Footer spacing helper */
-.page-spacer {
-    height: 2rem;
-}
 
 /* Desktop tweaks */
 @media (min-width: 768px) {

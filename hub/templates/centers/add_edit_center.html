@@ -34,6 +34,7 @@
     a.btn-secondary:hover { background: #aaa; }
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{% static 'core/css/centers/add-edit-center.css' %}">
 {% endblock styles %}
 
@@ -41,6 +42,10 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+
 
 <div class="form-page">
 
@@ -148,5 +153,15 @@
 
         map.on('click', onMapClick);
 
+    </script>
+
+    <script>
+    $(document).ready(function() {
+        $('#id_subjects').select2({
+            placeholder: "اختر مجالات المركز",
+            width: '100%',             // make it fit container
+            dropdownAutoWidth: true
+        });
+    });
     </script>
 {% endblock content %}

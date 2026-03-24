@@ -5,35 +5,38 @@
 }
 
 /* HERO */
-.course-hero {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
+.course-hero{
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.course-hero-image {
-    width: 350px;
-    max-width: 100%;
+/* course image */
+.course-hero-img{
+    width: 100%;
+    max-width: 600px;
     border-radius: 12px;
-    object-fit: cover;
+    margin-bottom: 20px;
 }
 
-.course-hero-info {
-    flex: 1;
+/* course title */
+.course-title{
+    font-size: 28px;
+    margin-bottom: 10px;
 }
 
-.course-provider {
+/* provider */
+.course-provider{
+    font-size: 16px;
     color: #555;
-    margin: 0.5rem 0;
 }
 
-.course-provider a {
-    color: #007bff;
+.course-provider a{
+    color: #2e7d32;
     text-decoration: none;
+    font-weight: 600;
 }
 
-.course-provider a:hover {
+.course-provider a:hover{
     text-decoration: underline;
 }
 

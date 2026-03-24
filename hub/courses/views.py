@@ -73,26 +73,23 @@ def course_lead(request, course_slug):
 # ============= CRUD views ==================
 
 @login_required
-@center_access_required
 @permission_required('core.add_course', raise_exception=True)
 def add_course(request, center_slug):
     center= Center.objects.get(slug= center_slug)
-    if request.user.profile.center == center:
-        if request.method == 'POST':
-            form=CourseForm(request.POST, request.FILES)
-            if form.is_valid():
-                course=form.save(commit=False)
-                course.center= center
-                course.created_by= request.user.profile
-                course.save()
-                form.save_m2m()
-        else:
-            form= CourseForm()
-        context= {'form':form}
+    if request.method == 'POST':
+        form=CourseForm(request.POST, request.FILES)
+        if form.is_valid():
+            course=form.save(commit=False)
+            course.center= center
+            course.created_by= request.user.profile
+            course.save()
+            form.save_m2m()
+    else:
+        form= CourseForm()
+    context= {'form':form, 'title':'إضافة دورة'}
     return render(request, 'courses/add_edit_course.html' , context)
 
 @login_required
-@center_access_required
 @permission_required('core.change_course', raise_exception=True)
 def edit_course(request, course_slug):
     course=Course.objects.get(slug=course_slug)
@@ -107,7 +104,7 @@ def edit_course(request, course_slug):
     else:
         form=CourseForm(instance=course)
 
-    context= {'form': form }
+    context= {'form': form, 'title': 'تعديل الدورة'}
     return render(request, 'courses/add_edit_course.html', context)
 
 @login_required

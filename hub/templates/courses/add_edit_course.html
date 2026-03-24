@@ -2,19 +2,190 @@
 {% load static %}
 
 {% block title %}
+{{title}}
 {% endblock title%}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'core/css/courses/add-edit-course.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+
 {% endblock styles%}
 
 {% block content %}
-<h2> add course</h2>
-<div>
-    <form enctype="multipart/form-data" method="post" >
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">submit</button>
-    </form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+
+<h2 class="form-title"> {{title}} </h2>
+
+<div class="course-form-container">
+
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- Basic Info -->
+    <div class="form-section">
+        <h3>المعلومات الأساسية</h3>
+
+        <div class="form-group">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.center.label_tag }}
+            {{ form.center }}
+            {{ form.center.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.subjects.label_tag }}
+            {{ form.subjects }}
+            {{ form.subjects.errors }}
+        </div>
+
+    </div>
+
+
+    <!-- Image -->
+    <div class="form-section">
+        <h3>صورة الإعلان</h3>
+
+        <div class="form-group">
+
+            {% if form.instance.image %}
+                <img src="{{ form.instance.image.url }}" class="image-preview">
+            {% endif %}
+
+            {{ form.image }}
+            {{ form.image.errors }}
+
+        </div>
+
+    </div>
+
+
+    <!-- Descriptions -->
+    <div class="form-section">
+        <h3>وصف الدورة</h3>
+        <p class="note">مهم: الوصف المختصر هو الذي يظهر في قائمة الدروات، ينصح بأن يكون محددا وجذابا</p>
+
+        <div class="form-group">
+            {{ form.short_discription.label_tag }}
+            {{ form.short_discription }}
+            {{ form.short_discription.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.learning_outcomes.label_tag }}
+            {{ form.learning_outcomes }}
+            {{ form.learning_outcomes.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.details.label_tag }}
+            {{ form.details }}
+            {{ form.details.errors }}
+        </div>
+
+    </div>
+
+
+    <!-- Course Info -->
+    <div class="form-section">
+        <h3>تفاصيل الدورة</h3>
+
+        <div class="form-group">
+            {{ form.length.label_tag }}
+            {{ form.length }}
+            {{ form.length.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.course_type.label_tag }}
+            {{ form.course_type }}
+            {{ form.course_type.errors }}
+        </div>
+
+    </div>
+
+    <!-- Location -->
+    <div class="form-section">
+        <h3>مكان الدورة</h3>
+
+        <p class="note">يرجى تعبئة خانة المكان إن كانت الدورة حضوريا، وخانة المنصة إن كانت الدورة أونلاين</p>
+        <div class="form-group">
+            {{ form.address.label_tag }}
+            {{ form.address }}
+            {{ form.address.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.online_platform.label_tag }}
+            {{ form.online_platform }}
+            {{ form.online_platform.errors }}
+        </div>
+
+    </div>
+
+
+    <!-- Price -->
+    <div class="form-section">
+        <h3>السعر</h3>
+
+        <div class="price-grid">
+
+            <div class="form-group">
+                {{ form.price.label_tag }}
+                {{ form.price }}
+                {{ form.price.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.currency.label_tag }}
+                {{ form.currency }}
+                {{ form.currency.errors }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Installments -->
+    <div class="form-section">
+
+        <div class="checkbox-group">
+            {{ form.installment_available }}
+            {{ form.installment_available.label_tag }}
+        </div>
+
+        <div class="form-group">
+            {{ form.installment_details.label_tag }}
+            {{ form.installment_details }}
+            {{ form.installment_details.errors }}
+        </div>
+
+    </div>
+
+
+
+
+    <button class="submit-btn" type="submit">
+        حفظ الدورة
+    </button>
+
+    </form>
 </div>
+
+<script>
+$(document).ready(function() {
+    $('#id_subjects').select2({
+        placeholder: "اختر مجالات الدورة",
+        width: '100%',             // make it fit container
+        dropdownAutoWidth: true
+    });
+});
+</script>
 {% endblock content %}

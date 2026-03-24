@@ -1,0 +1,160 @@
+/* ==================
+   HEADER
+   ================== */
+.site-header {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-sm);
+    padding: 0 5%; /* Aligns with .main-container's 90% width */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 70px;
+}
+
+/* Logo (currently commented out in HTML) */
+.logo h1 {
+    font-size: 1.8rem;
+    color: white;
+    margin: 0;
+}
+
+/* Navigation */
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list li a {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-list li a:hover {
+    color: var(--soft-blue);
+}
+
+/* Underline effect for active/hover link */
+.nav-list li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--light-blue);
+    transition: width 0.3s ease;
+}
+
+.nav-list li a:hover::after {
+    width: 100%;
+}
+
+/* Buttons */
+.login-button {
+    background-color: var(--light-blue);
+    color: #ffffff !important; /* Override default link color */
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.login-button:hover {
+    background-color: var(--primary-hover);
+    color: white !important;
+}
+.login-button::after {
+    display: none; /* No underline for button */
+}
+
+.user-button {
+    background-color: var(--bg-color);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+
+/* ==================
+   FOOTER
+   ================== */
+.site-footer {
+    background-color: var(--primary-color);
+    color: white;
+    margin-top: auto; /* Pushes footer to the bottom */
+    padding: 2rem 0;
+    border-top: 1px solid var(--primary-color);
+    text-align: center;
+    position: relative;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.footer-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.site-footer .log-button {
+    background: none;
+    border: 1px solid white;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Cairo', sans-serif; /* Ensure font is inherited */
+    transition: all 0.2s ease;
+    text-decoration: none; /* For the <a> tag version */
+    display: inline-block;
+}
+
+.site-footer .log-button:hover {
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.site-footer::after {
+    content: "© 2024 كورساتي";
+    display: block;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: white;
+    opacity: 0.8;
+}

@@ -60,6 +60,39 @@
     min-height: 120px;
 }
 
+.select2-container--default .select2-selection--multiple {
+    min-height: 20px;           /* total height */
+    padding: 2px 6px;           /* inner padding */
+    display: flex !important;   /* ensure flex layout */
+    flex-wrap: wrap;
+    align-items: flex-start;    /* tags start at top */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* The rendered tags */
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;    /* forces tags to start top */
+    gap: 4px;
+}
+
+/* Each individual tag */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin: 2px 2px 2px 0;
+    padding: 2px 6px;
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+/* Input field inside Select2 */
+.select2-container--default .select2-search--inline .select2-search__field {
+    margin-top: 0 !important;
+    padding: 0 !important;
+}
+
 #map {
     height: 400px;
     border-radius: 16px;
