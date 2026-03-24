@@ -1,8 +1,8 @@
 databases:
-  - name: mysitedb
+  - name: course_hubdb
     plan: free
-    databaseName: mysite
-    user: mysite
+    databaseName: course_hubdb
+    user: course_hub
 
 services:
   - type: web
@@ -10,11 +10,11 @@ services:
     name: course_hub
     runtime: python
     buildCommand: './build.sh'
-    startCommand: 'python -m gunicorn hub.asgi:application -k uvicorn.workers.UvicornWorker'
+    startCommand: 'python -m gunicorn hub.hub.asgi:application -k uvicorn.workers.UvicornWorker'
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: mysitedb
+          name: course_hubdb
           property: connectionString
       - key: SECRET_KEY
         generateValue: true
