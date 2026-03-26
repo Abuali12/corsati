@@ -50,11 +50,14 @@ a {
 
 /* Headings */
 h1, h2, h3, h4 {
+    text-align: center;
     color: var(--dark-blue);
     margin-bottom: 0.5rem;
 }
 
-
+.logo h1{
+    color: #fff;
+}
 
 
 /* Desktop tweaks */

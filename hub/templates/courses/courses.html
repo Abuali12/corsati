@@ -31,9 +31,8 @@
             </div>
 
             <div class="filter-field">
-                <label for="subject">المجال</label>
                 <select name="subject" id="subject">
-                    <option value="">الكل</option>
+                    <option value="">المجال - الكل</option>
                     {% for subject in subjects %}
                         <option value="{{ subject.id }}"
                         {% if request.GET.subject == subject.id|stringformat:'s' %}
@@ -46,9 +45,8 @@
             </div>
 
             <div class="filter-field">
-                <label for="type">نوع الدورة</label>
                 <select name="type" id="type">
-                    <option value="">الكل</option>
+                    <option value="">نوع الدورة - الكل</option>
                     {% for value, option in type %}
                         <option value="{{ value }}"
                         {% if request.GET.type == value %}
@@ -61,11 +59,10 @@
             </div>
 
             <div class="filter-field">
-                <label for="price">أقصى سعر</label>
                 <input type="number"
                        name="price"
                        id="price"
-                       placeholder="مثال: 500"
+                       placeholder="أقصى سعر، مثال: 500"
                        value="{{ request.GET.price }}">
             </div>
 
@@ -73,7 +70,7 @@
 
         <div class="filter-actions">
             <button type="submit" class="btn-search">بحث</button>
-            <a href="{% url 'courses' %}" class="btn-clear">إعادة تعيين</a>
+            <a href="{% url 'courses' %}" class="btn-clear"> تصفية البحث</a>
         </div>
 
     </form>
@@ -92,7 +89,7 @@
                 {% if course.image %}
                     <img src="{{ course.image.url }}" alt="{{ course.title }}">
                 {% else  %}
-                    <img src="../../core/static/core/imgs/course_placeholder.jpeg" alt="">
+                    <img src="{% static 'core/imgs/course_placeholder.jpeg' %}" alt="">
                 {% endif %}
 
                 <h3 class="course-title">{{ course.title }}</h3>
