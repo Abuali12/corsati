@@ -17,18 +17,18 @@ services:
       if [ "$CREATE_SUPERUSER" = "True" ]; then
           echo "Creating Django superuser..."
           python - <<END
-    import os
-    import django
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hub.settings")
-    django.setup()
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-    username = "$DJANGO_SUPERUSER_USERNAME"
-    email = "$DJANGO_SUPERUSER_EMAIL"
-    password = "$DJANGO_SUPERUSER_PASSWORD"
-    if not User.objects.filter(username=username).exists():
-      User.objects.create_superuser(username=username, email=email, password=password)
-    END
+      import os
+      import django
+      os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hub.settings")
+      django.setup()
+      from django.contrib.auth import get_user_model
+      User = get_user_model()
+      username = "$DJANGO_SUPERUSER_USERNAME"
+      email = "$DJANGO_SUPERUSER_EMAIL"
+      password = "$DJANGO_SUPERUSER_PASSWORD"
+      if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username=username, email=email, password=password)
+      END
       fi
     startCommand: |
       cd hub
