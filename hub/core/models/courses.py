@@ -46,7 +46,7 @@ class Course(models.Model):
     view_count= models.PositiveIntegerField(blank=True, verbose_name='عدد المشاهدات', default=0)
     leads_count= models.PositiveIntegerField(blank=True, verbose_name='عدد المهتمين', default=0)
 
-    created_by= models.ForeignKey('Profile', on_delete=models.PROTECT, related_name='courses', verbose_name='المسؤول')
+    created_by= models.ForeignKey('User', on_delete=models.PROTECT, related_name='courses', verbose_name='المسؤول')
     created_at= models.DateField(auto_now_add=True, verbose_name='تاريخ الإضافة')
     updated_at= models.DateField(auto_now=True, verbose_name='تاريخ التعديل')
 
