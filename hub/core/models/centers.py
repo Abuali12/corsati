@@ -9,7 +9,7 @@ class Center(models.Model):
     slug= models.SlugField(max_length=200, unique=True, allow_unicode=True)
 
     owner= models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_centers', null=True)
-    staff= models.ManyToManyField(User, blank=True, related_name='working_centers', null=True)
+    staff= models.ManyToManyField(User, blank=True, related_name='working_centers')
 
     discription= models.TextField(verbose_name='وصف المركز')
     subjects= models.ManyToManyField('Subject', related_name='centers', verbose_name='مجالات المركز')
