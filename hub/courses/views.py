@@ -81,7 +81,7 @@ def add_course(request, center_slug):
         if form.is_valid():
             course=form.save(commit=False)
             course.center= center
-            course.created_by= request.user.profile
+            course.created_by= request.user
             course.save()
             form.save_m2m()
     else:
