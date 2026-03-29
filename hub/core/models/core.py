@@ -27,8 +27,8 @@ class Lead(models.Model):
     student_phone= models.CharField(max_length=30, verbose_name='رقم الهاتف', blank= True, null=True)
     student_email= models.EmailField(verbose_name='البريد الالكتروني', blank=True, null= True)
     note= models.TextField(verbose_name='تعليق', blank=True, null=True)
-    course= models.ForeignKey('Course', on_delete=models.PROTECT, related_name='leads', verbose_name='الدورة')
-    center= models.ForeignKey('Center', on_delete=models.PROTECT, related_name='leads', verbose_name='المركز')
+    course= models.ForeignKey('Course', on_delete=models.PROTECT, related_name='leads', verbose_name='الدورة', null=True)
+    center= models.ForeignKey('Center', on_delete=models.PROTECT, related_name='leads', verbose_name='المركز', null=True)
     created_at= models.DateField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
 
     TYPE_CHOICES = [
