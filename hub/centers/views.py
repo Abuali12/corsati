@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from core.models import Center, State, Subject, Profile
 from django.contrib.auth.models import Group
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from core.utils import center_access_required
 from django.http import HttpResponseForbidden
@@ -85,6 +86,7 @@ def edit_center(request, center_slug):
             center.updated_at= datetime.datetime.now()
             center.save()
             form.save_m2m()
+            messages.success(request, "تم تحديث بيانات المركز بنجاح، سيتم مراجعة التغييرات من قبل الإدارة خلال 24 ساعة")
             return redirect('center_dashboard', center_slug)
     else:
         form=CenterForm(instance=center)

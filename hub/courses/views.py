@@ -67,6 +67,7 @@ def course_lead(request, course_slug):
             lead.lead_type= 'course'
             lead.save()
             messages.success(request, "تم إرسال طلبك بنجاح")
+            
     
     return redirect('course', course_slug)
 
@@ -84,6 +85,7 @@ def add_course(request, center_slug):
             course.created_by= request.user
             course.save()
             form.save_m2m()
+            return redirect('center_dashboard', center.slug)
     else:
         form= CourseForm()
     context= {'form':form, 'title':'إضافة دورة'}
@@ -101,6 +103,7 @@ def edit_course(request, course_slug):
             course.approved=False
             course.save()
             form.save_m2m()
+            return redirect('center_dashboard', course.center.slug)
     else:
         form=CourseForm(instance=course)
 
@@ -110,7 +113,11 @@ def edit_course(request, course_slug):
 @login_required
 @center_access_required
 def delete_course(request, course_slug):
-    return render(request, 'courses/delete_course.html')
+
+    course= Course.objects.get(slug= course_slug)
+    course.delete()
+    messages.success(request, "تم حذف الدورة بنجاح")
+    return redirect('center_dashboard', course.center.slug)
 
 @login_required
 @center_access_required

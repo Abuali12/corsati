@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}
+{{center.title}}
 {% endblock title%}
 
 {% block styles %}
@@ -90,7 +91,7 @@
 
         <div class="section-header">
             <h3>الدورات</h3>
-            <a href="{% url 'add_course' center_slug=center.slug %}" class="btn-primary">
+            <a href="{% url 'add_course' center.slug %}" class="btn-primary">
                 إضافة دورة
             </a>
         </div>
@@ -99,7 +100,7 @@
             {% for course in courses %}
             <div class="course-card">
 
-                <a href="{% url 'course' course.id %}" class="course-link">
+                <a href="{% url 'course' course.slug %}" class="course-link">
 
                     {% if course.image %}
                         <img src="{{ course.image.url }}" alt="{{ course.title }}">
@@ -129,8 +130,8 @@
 
                 <!-- Dashboard Controls -->
                 <div class="course-actions">
-                    <a href="{% url 'edit_course' course.id %}">تعديل</a>
-                    <a href="{% url 'delete_course' course.id %}" class="danger">حذف</a>
+                    <a href="{% url 'edit_course' course.slug %}">تعديل</a>
+                    <a href="{% url 'delete_course' course.slug %}" class="danger">حذف</a>
                 </div>
 
             </div>

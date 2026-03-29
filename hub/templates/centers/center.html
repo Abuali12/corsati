@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block title %}
+{{center.title}}
 {% endblock title%}
 
 {% block styles %}
@@ -40,7 +41,7 @@
         {% if center.discription %}
         <div class="center-description">
             <h3>عن المركز</h3>
-            <p>{{ center.discription }}</p>
+            <p>{{ center.discription|linebreaksbr }}</p>
         </div>
         {% endif %}
 
@@ -57,7 +58,7 @@
 
         <div class="center-location">
             <h3>عنوان المركز</h3>
-            <p>{{ center.address }}, {{ center.state.title }}</p>
+            <p>{{ center.address|linebreaksbr }}, {{ center.state.title }}</p>
         </div>
 
         {% if center.contact_email or center.contact_phone or center.website %}
@@ -88,7 +89,7 @@
             {% for course in courses %}
             <div class="course-card">
 
-                <a href="{% url 'course' course.id %}" class="course-link">
+                <a href="{% url 'course' course.slug %}" class="course-link">
                     {% if course.image %}
                         <img src="{{ course.image.url }}" alt="{{ course.title }}">
                     {% endif %}
