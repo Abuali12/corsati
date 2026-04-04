@@ -16,6 +16,9 @@ class Course(models.Model):
     learning_outcomes=models.TextField(verbose_name='مخرجات الدورة')
     details= models.TextField(verbose_name='التفاصيل')
 
+    course_instructor= models.CharField(max_length=100, verbose_name='مدرب الدورة', blank=True, null=True)
+    about_instructor= models.TextField(verbose_name='نبذة عن المدرب', null=True, blank=True)
+
     CURRENCIES=(
         ('SDB','جنية سوداني'),
         ('USD','دولار أمريكي'),
@@ -32,8 +35,8 @@ class Course(models.Model):
 
     TYPE= (
         ('in_person','حضوري'),
-        ('online','أونلاين'),
-        ('hybrid','حضوري وأونلاين'),
+        ('online','عن بعد'),
+        ('hybrid','حضوري وعن بعد'),
     )
     course_type= models.CharField(choices=TYPE, max_length=30, verbose_name='نوع الدورة')
     address= models.CharField(max_length=300, verbose_name='المكان', blank=True)

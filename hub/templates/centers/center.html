@@ -94,6 +94,9 @@
                         <img src="{{ course.image.url }}" alt="{{ course.title }}">
                     {% endif %}
                     <h3 class="course-title">{{ course.title }}</h3>
+                    {% if course.course_instructor %}
+                        <h3 class="course-title">{{ course.course_instructor }}</h3>
+                    {% endif %}
                 </a>
 
                 <div class="course-type">

@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('length', models.CharField(max_length=100, verbose_name='المدة')),
                 ('start_date', models.DateField(blank=True, verbose_name='تاريخ البدء')),
                 ('schedule', models.TextField(blank=True, verbose_name='الجدول الزمني')),
-                ('course_type', models.CharField(choices=[('in_person', 'حضوري'), ('onine', 'أونلاين'), ('hybrid', 'حضوري وأونلاين')], max_length=30, verbose_name='نوع الدورة')),
+                ('course_type', models.CharField(choices=[('in_person', 'حضوري'), ('onine', 'عن بعد'), ('hybrid', 'حضوري وعن بعد')], max_length=30, verbose_name='نوع الدورة')),
                 ('address', models.CharField(blank=True, max_length=300, verbose_name='المكان')),
                 ('online_platform', models.CharField(blank=True, max_length=100, verbose_name='المنصة')),
                 ('is_active', models.BooleanField(default=True, verbose_name='الدورة نشطة')),

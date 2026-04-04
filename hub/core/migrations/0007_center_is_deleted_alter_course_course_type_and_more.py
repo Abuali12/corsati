@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='course',
             name='course_type',
-            field=models.CharField(choices=[('in_person', 'حضوري'), ('online', 'أونلاين'), ('hybrid', 'حضوري وأونلاين')], max_length=30, verbose_name='نوع الدورة'),
+            field=models.CharField(choices=[('in_person', 'حضوري'), ('online', 'عن بعد'), ('hybrid', 'حضوري وعن بعد')], max_length=30, verbose_name='نوع الدورة'),
         ),
         migrations.AlterField(
             model_name='course',

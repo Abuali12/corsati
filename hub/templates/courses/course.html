@@ -58,6 +58,14 @@
             <p>{{ course.details|linebreaksbr }}</p>
         </div>
 
+        {% if course.course_instructor%}
+        <div class="course-section">
+            <h3>مقدم الدورة</h3>
+            <p>{{ course.course_instructor }}</p>
+            <p>{{ course.about_instructor|linebreaksbr }}</p>
+        </div>
+        {% endif %}
+
         {% if course.learning_outcomes %}
         <div class="course-section">
             <h3>مخرجات الدورة</h3>
