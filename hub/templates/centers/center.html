@@ -20,7 +20,11 @@
    <!-- Header -->
     <section class="center-header">
 
-        {% if center.logo  %}
+        {% if center.logo_url  %}
+            <div class="center-logo">
+                <img src="{{ center.logo_url }}" alt="center logo">
+            </div>
+        {% elif center.logo %}
             <div class="center-logo">
                 <img src="{{ center.logo.url }}" alt="center logo">
             </div>
@@ -90,13 +94,19 @@
             <div class="course-card">
 
                 <a href="{% url 'course' course.slug %}" class="course-link">
-                    {% if course.image %}
+
+                    {% if course.image_url %}
+                        <img src="{{ course.image_url }}" alt="{{ course.title }}">
+                    {% elif course.image %}
                         <img src="{{ course.image.url }}" alt="{{ course.title }}">
                     {% endif %}
+
                     <h3 class="course-title">{{ course.title }}</h3>
+
                     {% if course.course_instructor %}
                         <h3 class="course-title">{{ course.course_instructor }}</h3>
                     {% endif %}
+                    
                 </a>
 
                 <div class="course-type">

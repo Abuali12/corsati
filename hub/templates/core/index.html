@@ -14,28 +14,60 @@
 
 <h1>كورساتي</h1>
 
-    <main class="features">
+<!-- 🔥 HERO SECTION -->
+<section class="hero">
+    <h2>اعرض دورات مركزك بسهولة وصل لطلاب أكثر</h2>
+    <p>منصة بسيطة تساعد مراكز التدريب على عرض دوراتهم بشكل منظم وسهل</p>
 
-        <div class="feature-card">
-            <a href="{% url 'centers' %}">
-                <img src="{% static 'core/imgs/map.png' %}" alt="centers logo">
-                <dl>
-                    <dt>المراكز</dt>
-                    <dd>تعرف على المراكز من حولك</dd>
-                </dl>
-            </a>
-        </div>
+    <div class="hero-actions">
+        <a href="{% url 'add_center' %}" class="cta-primary">أرسل بيانات مركزك</a>
+        <a href="{% url 'centers' %}" class="cta-secondary">مشاهدة مثال</a>
+    </div>
+</section>
 
 
-        <div class="feature-card">
-            <a href="{% url 'courses' %}">
-                <img src="{% static 'core/imgs/book.png' %}" alt="courses logo">
-                <dl>
-                    <dt>الدورات</dt>
-                    <dd>تعرف على الدورات من حولك</dd>
-                </dl>
-            </a>
-        </div>
-    </main>
+<!-- 🔹 EXISTING FEATURES (keep them) -->
+<main class="features">
+
+    <div class="feature-card">
+        <a href="{% url 'centers' %}">
+            <img src="{% static 'core/imgs/map.png' %}" alt="centers logo">
+            <dl>
+                <dt>المراكز</dt>
+                <dd>تعرف على المراكز من حولك</dd>
+            </dl>
+        </a>
+    </div>
+
+    <div class="feature-card">
+        <a href="{% url 'courses' %}">
+            <img src="{% static 'core/imgs/book.png' %}" alt="courses logo">
+            <dl>
+                <dt>الدورات</dt>
+                <dd>تعرف على الدورات من حولك</dd>
+            </dl>
+        </a>
+    </div>
+
+</main>
+
+
+<!-- 🔥 HOW IT WORKS -->
+<section class="how-it-works">
+    <h3>كيف تعمل المنصة؟</h3>
+
+    <div class="steps">
+        <div class="step">1. أرسل بيانات مركزك</div>
+        <div class="step">2. نضيف الدورات لك</div>
+        <div class="step">3. يظهر للطلاب بسهولة</div>
+    </div>
+</section>
+
+
+
+<section class="final-cta">
+    <h3>جاهز تبدأ؟</h3>
+    <a href="{% url 'add_center' %}" class="cta-primary">أرسل بيانات مركزك الآن</a>
+</section>
 
 {% endblock content %}

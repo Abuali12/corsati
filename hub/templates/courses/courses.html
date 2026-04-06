@@ -86,7 +86,9 @@
 
             <a href="{% url 'course' course.slug %}" class="course-link">
 
-                {% if course.image %}
+                {% if course.image_url %}
+                    <img src="{{ course.image_url }}" alt="{{ course.title }}">
+                {% elif course.image %}
                     <img src="{{ course.image.url }}" alt="{{ course.title }}">
                 {% else  %}
                     <img src="{% static 'core/imgs/course_placeholder.jpeg' %}" alt="">

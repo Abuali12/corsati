@@ -21,7 +21,7 @@ class Center(models.Model):
 
 
     logo= models.ImageField(upload_to='centers/logos/%y/%m', blank=True, null=True , verbose_name='صورة الشعار')
-
+    logo_url= models.URLField(blank=True, null=True, verbose_name='رابط الشعار')
     contact_phone= models.CharField(max_length=15, verbose_name='رقم التواصل', blank=True, null=True)
     contact_email= models.EmailField(verbose_name='البريد الإلكتروني')
     website= models.URLField(blank=True, null=True, verbose_name='الموقع الإلكتروني')

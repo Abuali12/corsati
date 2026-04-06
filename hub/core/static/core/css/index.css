@@ -11,6 +11,65 @@
     color: #333;
 }
 
+.hero {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.hero h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cta-primary {
+    background: #2c7be5;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.cta-secondary {
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.how-it-works {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.step {
+    background: #f5f5f5;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
+
+.final-cta {
+    text-align: center;
+    margin: 40px 0;
+}
+
 /* Layout */
 .features {
     display: flex;

@@ -64,7 +64,9 @@
 
 
                 <a href="{% url 'center' center.slug %}">
-                    {% if center.logo %}
+                    {% if center.logo_url %}
+                        <img src="{{ center.logo_url }}" alt="">
+                    {% elif center.logo %}
                         <img src="{{ center.logo.url }}" alt="">
                     {% endif %}
 

@@ -12,6 +12,7 @@ class Course(models.Model):
 
 
     image= models.ImageField(upload_to='courses/images/%y/%m', blank=True, verbose_name='اعلان الدورة')
+    image_url= models.URLField(blank=True, null=True, verbose_name='رابط اعلان الدورة')
     short_discription= models.CharField(max_length=300, verbose_name='وصف مختصر')
     learning_outcomes=models.TextField(verbose_name='مخرجات الدورة')
     details= models.TextField(verbose_name='التفاصيل')

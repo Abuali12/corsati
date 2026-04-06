@@ -16,7 +16,9 @@
     <!-- ===== HERO SECTION ===== -->
     <div class="course-hero">
 
-        {% if course.image %}
+        {% if course.image_url %}
+            <img src="{{ course.image_url }}" alt="{{ course.title }}" class="course-hero-image">
+        {% elif course.image %}
             <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-hero-image">
         {% endif %}
 
