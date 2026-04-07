@@ -29,7 +29,12 @@
         {% endif %}
 
         <div class="center-info">
-            <h2>{{ center.title }}</h2>
+
+            {% if center.is_individual %}
+                <h2>المدرب: {{ center.title }}</h2>
+            {% else %}
+                <h2>{{ center.title }}</h2>
+            {% endif %}
 
             <div class="dashboard-actions">
                 <a href="{% url 'edit_center' center_slug=center.slug %}" class="btn-secondary">
