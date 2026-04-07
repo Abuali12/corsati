@@ -15,10 +15,18 @@ class Center(models.Model):
     subjects= models.ManyToManyField('Subject', related_name='centers', verbose_name='مجالات المركز')
 
     is_verified= models.BooleanField(default=False, verbose_name='معرف')
+    is_individual= models.BooleanField(default=False, verbose_name='فردي')
     is_deleted= models.BooleanField(default=False, verbose_name='محذوف')
     is_active= models.BooleanField(default=True, verbose_name='نشط')
     is_featured= models.BooleanField(default=False, verbose_name='مميز')
 
+    TYPE= (
+        ('in_person','حضوري'),
+        ('online','عن بعد'),
+        ('hybrid','حضوري وعن بعد'),
+    )
+    center_type= models.CharField(choices=TYPE,default=
+                                  'in_person', max_length=30, verbose_name='نوع المركز')
 
     logo= models.ImageField(upload_to='centers/logos/%y/%m', blank=True, null=True , verbose_name='صورة الشعار')
     logo_url= models.URLField(blank=True, null=True, verbose_name='رابط الشعار')
@@ -26,10 +34,10 @@ class Center(models.Model):
     contact_email= models.EmailField(verbose_name='البريد الإلكتروني')
     website= models.URLField(blank=True, null=True, verbose_name='الموقع الإلكتروني')
 
-    state= models.ForeignKey('State', on_delete=models.PROTECT, related_name='centers', verbose_name='الولاية')
-    address= models.TextField(verbose_name='العنوان')
-    latitude= models.FloatField(verbose_name=('خط الطول'))
-    longitude= models.FloatField(verbose_name=('خط العرض'))
+    state= models.ForeignKey('State', on_delete=models.PROTECT, related_name='centers', verbose_name='الولاية', blank=True, null=True)
+    address= models.TextField(verbose_name='العنوان', blank=True, null=True)
+    latitude= models.FloatField(verbose_name=('خط الطول'), blank=True, null=True)
+    longitude= models.FloatField(verbose_name=('خط العرض'), blank=True, null=True)
 
     view_count= models.PositiveIntegerField(blank=True, verbose_name='عدد المشاهدات', default=0)
 

@@ -101,8 +101,10 @@
         }).addTo(map);
 
         {% for center in centers %}
+        {% if center.latitude and center.longitude %}
             L.marker([{{center.latitude}}, {{center.longitude}}]).addTo(map)
             .bindPopup("<b><a href='{% url 'center' center.slug %}' target='_blank'>{{center.title}}</a></b>");
+        {% endif %}
         {% endfor %}
 
         var marker;

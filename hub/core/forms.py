@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 class CenterForm(forms.ModelForm):
     class Meta:
         model= Center
-        fields= ['title','logo','discription','subjects','contact_phone','contact_email','website', 'state', 'address', 'latitude', 'longitude']
+        fields= ['title','logo','discription','subjects','contact_phone','center_type','contact_email','website', 'state', 'address', 'latitude', 'longitude']
         widgets={
             'latitude': forms.HiddenInput(),
             'longitude': forms.HiddenInput(),

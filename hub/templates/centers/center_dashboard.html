@@ -39,16 +39,18 @@
         </div>
     </section>
 
+    {% if center.latitude and center.longitude %}
     <section class="center-map">
         <div id="map"></div>
     </section>
+    {% endif %}
 
-<section class="center-details">
+    <section class="center-details">
 
     <!-- Description -->
     {% if center.discription %}
     <div class="center-description">
-        <h3>وصف المركز</h3>
+        <h3>الوصف</h3>
         <p>{{ center.discription }}</p>
     </div>
     {% endif %}
@@ -56,7 +58,7 @@
     <!-- Subjects -->
     {% if center.subjects.all %}
     <div class="center-subjects">
-        <h3>مجالات المركز</h3>
+        <h3>مجالات التدريب</h3>
         <div class="subject-tags">
             {% for subject in center.subjects.all %}
                 <span class="subject-tag">{{ subject.title }}</span>
@@ -66,10 +68,12 @@
     {% endif %}
 
     <!-- Location Info -->
+     {% if center.address and center.state %}
     <div class="center-location">
         <h3>العنوان</h3>
         <p>{{ center.address }}, {{ center.state.title }}</p>
     </div>
+    {% endif %}
 
     <!-- Contact Info (Optional) -->
     {% if center.contact_email or center.contact_phone or center.website %}
@@ -95,7 +99,7 @@
    <section class="courses-section">
 
         <div class="section-header">
-            <h3>الدورات</h3>
+            <h3>الدورات التدريبية</h3>
             <a href="{% url 'add_course' center.slug %}" class="btn-primary">
                 إضافة دورة
             </a>
@@ -135,6 +139,12 @@
             <p class="course-description">
                 {{ course.short_discription }}
             </p>
+
+            <div class="subjects">
+                {% for subject in course.subjects.all %}
+                <span class="subject-tag">{{subject.title}}</span>
+                {% endfor %}
+            </div>
 
             <div class="course-price">
                 {{ course.price }} {{course.get_currency_display}}

@@ -119,6 +119,12 @@
                 {{ course.short_discription }}
             </p>
 
+            <div class="subjects">
+                {% for subject in course.subjects.all %}
+                <span class="subject-tag">{{subject.title}}</span>
+                {% endfor %}
+            </div>
+
             <div class="course-footer">
 
                 <span class="course-price">

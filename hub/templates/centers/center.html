@@ -31,27 +31,32 @@
         {% endif %}
 
         <div class="center-info">
+            {% if center.is_individual %}
+            <h2>المدرب: {{ center.title }}</h2>
+            {% else %}
             <h2>{{ center.title }}</h2>
+            {% endif %}
         </div>
 
     </section>
-
+    {% if center.latitude and center.longitude %}
     <section class="center-map">
         <div id="map"></div>
     </section>
+    {% endif %}
     
    <section class="center-details">
 
         {% if center.discription %}
         <div class="center-description">
-            <h3>عن المركز</h3>
+            <h3>الوصف</h3>
             <p>{{ center.discription|linebreaksbr }}</p>
         </div>
         {% endif %}
 
         {% if center.subjects.all %}
         <div class="center-subjects">
-            <h3>مجالات المركز</h3>
+            <h3>مجالات التدريب</h3>
             <div class="subject-tags">
                 {% for subject in center.subjects.all %}
                     <span class="subject-tag">{{ subject.title }}</span>
@@ -60,10 +65,12 @@
         </div>
         {% endif %}
 
+        {% if center.address %}
         <div class="center-location">
-            <h3>عنوان المركز</h3>
+            <h3>العنوان</h3>
             <p>{{ center.address|linebreaksbr }}, {{ center.state.title }}</p>
         </div>
+        {% endif %}
 
         {% if center.contact_email or center.contact_phone or center.website %}
         <div class="center-contact">
@@ -86,7 +93,7 @@
 
    <section class="courses-section">
         <div class="section-header">
-            <h3>دورات المركز</h3>
+            <h3>دورات التدريبية</h3>
         </div>
 
         <div class="course-list">
@@ -120,6 +127,12 @@
                 </div>
 
                 <p class="course-description">{{ course.short_discription }}</p>
+                
+                <div class="subjects">
+                    {% for subject in course.subjects.all %}
+                    <span class="subject-tag">{{subject.title}}</span>
+                    {% endfor %}
+                </div>
 
                 <div class="course-price">{{ course.price }} {{ course.get_currency_display }}</div>
 
