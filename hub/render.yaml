@@ -42,6 +42,8 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+      - key: DEBUG
+        value: "False"
 
       - key: DJANGO_SUPERUSER_USERNAME
         value: admin
