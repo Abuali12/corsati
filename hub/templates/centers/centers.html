@@ -100,12 +100,33 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
+        var bounds = [];
+
         {% for center in centers %}
-        {% if center.latitude and center.longitude %}
-            L.marker([{{center.latitude}}, {{center.longitude}}]).addTo(map)
-            .bindPopup("<b><a href='{% url 'center' center.slug %}' target='_blank'>{{center.title}}</a></b>");
-        {% endif %}
+            {% if center.latitude and center.longitude %}
+                var lat = {{ center.latitude }};
+                var lng = {{ center.longitude }};
+
+                bounds.push([lat, lng]);
+
+                L.marker([lat, lng]).addTo(map)
+                .bindPopup("<b><a href='{% url 'center' center.slug %}' target='_blank'>{{center.title}}</a></b>");
+            {% endif %}
         {% endfor %}
+
+        if (bounds.length > 0) {
+            map.fitBounds(bounds);
+        }
+
+        if (bounds.length === 1) {
+            map.setView(bounds[0], 13);
+        } else if (bounds.length > 1) {
+            map.fitBounds(bounds);
+        }
+
+        map.fitBounds(bounds, {
+            padding: [50, 50]
+        });
 
         var marker;
 

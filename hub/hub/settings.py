@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-secret-key")
 
 SITE_ID= int(os.environ.get('SITE_ID', 1)) 
 
-DEBUG= os.environ.get('DEBUG','True') ==  'True'
+DEBUG= os.environ.get('DEBUG','False') ==  'True'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'course-hub-5tic.onrender.com']
 
