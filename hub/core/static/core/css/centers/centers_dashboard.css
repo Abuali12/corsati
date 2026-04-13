@@ -1,0 +1,71 @@
+.dashboard {
+  text-align: center;
+}
+
+.subtitle {
+  color: #777;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #fff;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+
+    border-radius: 50%;
+    border: 4px solid #f1f3f6;
+
+    margin-bottom: 1rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.owner {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.staff {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.location {
+  font-size: 13px;
+  color: #666;
+  margin: 6px 0;
+}
+
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  background: #eee;
+  font-size: 13px;
+}
+
+.btn.primary {
+  background: #2563eb;
+  color: white;
+}

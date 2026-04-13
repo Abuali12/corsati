@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from core.utils import center_access_required
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
 from django.db.models import Q
 from core.forms import CenterForm
@@ -44,12 +45,25 @@ def center(request, center_slug):
     return render(request, 'centers/center.html', context)
 
 @login_required
-@center_access_required
+@permission_required('core.can_access_dashboard', raise_exception=True)
+def centers_dashboard(request):
+    owned_centers= Center.objects.filter(owner= request.user)
+    staff_centers= request.user.working_centers.all()
+    context= {'owned_centers': owned_centers, 'staff_centers': staff_centers}
+    return render(request, 'centers/centers_dashboard.html', context)
+
+@login_required
+
 def center_dashboard(request, center_slug):
     center= Center.objects.get(slug= center_slug)
-    courses= center.courses.all()
-    context={'center':center, 'courses':courses}
-    return render(request, 'centers/center_dashboard.html', context)
+    is_owner= center.owner == request.user
+    is_staff= center.staff.filter(id= request.user.id).exists()
+    if not (is_owner or is_staff):
+        raise PermissionDenied
+    else: 
+        courses= center.courses.filter(is_deleted=False)
+        context={'center':center, 'courses':courses}
+        return render(request, 'centers/center_dashboard.html', context)
 
 @login_required
 def add_center(request):
@@ -68,6 +82,8 @@ def add_center(request):
             form=CenterForm()
     context={'form':form, 'title': 'إضافة مركز'}
     return render(request, 'centers/add_edit_center.html', context)
+
+
 
 @login_required
 @center_access_required

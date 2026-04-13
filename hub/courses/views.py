@@ -9,7 +9,7 @@ import datetime
 
 # Create your views here.
 def courses(request):
-    courses= Course.objects.filter(is_verified= True, is_active= True).select_related('center').prefetch_related('subjects')
+    courses= Course.objects.filter(is_verified= True, is_active= True, is_deleted=False).select_related('center').prefetch_related('subjects')
 
 
     q= request.GET.get('q')
@@ -97,10 +97,10 @@ def edit_course(request, course_slug):
     course=Course.objects.get(slug=course_slug)
  
     if request.method == 'POST':
-        form=CourseForm(request.POST, request.FILES)
+        form=CourseForm(request.POST, request.FILES, instance=course)
         if form.is_valid():
             course=form.save(commit=False)
-            course.approved=False
+            course.is_verified=False
             course.save()
             form.save_m2m()
             return redirect('center_dashboard', course.center.slug)
@@ -111,11 +111,12 @@ def edit_course(request, course_slug):
     return render(request, 'courses/add_edit_course.html', context)
 
 @login_required
-@center_access_required
+@permission_required('core.delete_course', raise_exception=True)
 def delete_course(request, course_slug):
 
     course= Course.objects.get(slug= course_slug)
-    course.delete()
+    course.is_deleted= True
+    course.save(update_fields=['is_deleted'])
     messages.success(request, "تم حذف الدورة بنجاح")
     return redirect('center_dashboard', course.center.slug)
 

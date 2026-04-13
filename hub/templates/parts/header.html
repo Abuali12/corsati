@@ -13,13 +13,15 @@
 
 
                 {% if user.is_authenticated %}
-                    {% if user.working_centers.exists %}
-                    <li><a href="{% url 'center_dashboard' user.working_centers.first.slug%}">مركزي</a></li>
-                    {% elif user.owned_centers.exists %}
-                    <li><a href="{% url 'center_dashboard' user.owned_centers.first.slug %}">مركزي</a></li>
+
+                    {% if perms.core.can_access_dashboard %}
+                        <li><a href="{% url 'centers_dashboard' %}">لوحة التحكم</a></li>
+                        
                     {% endif %}
-                    <li class="user-button">{{ user.username }}</li>
+                        <li class="user-button">{{ user.username }}</li>
+
                 {% else %}
+
                     <li>
                         <a class="login-button" href="{% url 'login' %}">تسجيل الدخول</a>
                     </li>

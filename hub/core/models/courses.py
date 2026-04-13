@@ -27,9 +27,9 @@ class Course(models.Model):
         ('EGB','جنيه مصري'),
     )
 
-    price= models.DecimalField(max_digits=20, decimal_places=2, verbose_name='السعر')
-    currency= models.CharField(max_length=20, choices=CURRENCIES, verbose_name='العملة')
-    installment_available= models.BooleanField(default=False, verbose_name='يتوفر التقسيط')
+    price= models.DecimalField(max_digits=20, decimal_places=2, verbose_name='السعر', blank=True, null=True )
+    currency= models.CharField(max_length=20, choices=CURRENCIES, verbose_name='العملة', blank=True, null=True)
+    installment_available= models.BooleanField(default=False, verbose_name='يتوفر التقسيط', blank=True, null=True)
     installment_details= models.TextField(verbose_name='تفاصيل التقسيط', blank=True, null=True)
 
     length= models.CharField(max_length=100, verbose_name='المدة')
@@ -45,6 +45,7 @@ class Course(models.Model):
 
     is_verified= models.BooleanField(default=False, verbose_name='الدورة معرفة')
     is_active= models.BooleanField(default=True, verbose_name='الدورة نشطة')
+    is_deleted= models.BooleanField(default=False, verbose_name='الدورة محذوفة')
     is_featured= models.BooleanField(default=False, verbose_name='الدورة مميزة')
 
     view_count= models.PositiveIntegerField(blank=True, verbose_name='عدد المشاهدات', default=0)

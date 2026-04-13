@@ -125,19 +125,23 @@
                 {% endfor %}
             </div>
 
-            <!-- <div class="course-footer">
+            {% if course.price %}
+            
+                <div class="course-footer">
 
-                <span class="course-price">
-                    {{ course.price }} {{ course.get_currency_display }}
-                </span>
-
-                {% if course.installment_available %}
-                    <span class="installment-badge">
-                        يمكن التقسيط
+                    <span class="course-price">
+                        {{ course.price }} {{ course.get_currency_display }}
                     </span>
-                {% endif %}
 
-            </div> -->
+                    {% if course.installment_available %}
+                        <span class="installment-badge">
+                            يمكن التقسيط
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
 
         </div>
 

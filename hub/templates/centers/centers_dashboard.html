@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+لوحة التحكم
+{% endblock title%}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'core/css/centers/centers.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/centers/centers_dashboard.css' %}">
+{% endblock styles%}
+
+{% block content %}
+<div class="dashboard">
+    <h2>لوحة التحكم</h2>
+
+    <p class="subtitle">إدارة المراكز الخاصة بك</p>
+
+    <h3>مراكز تملكها</h3>
+
+    {% for center in owned_centers %}
+
+    <div class="card">
+
+        {% if center.logo_url  %}
+            <div class="center-logo">
+                <img src="{{ center.logo_url }}" alt="center logo">
+            </div>
+        {% elif center.logo %}
+            <div class="center-logo">
+                <img src="{{ center.logo.url }}" alt="center logo">
+            </div>
+        {% endif %}
+        <h4>{{ center.title }}</h4>
+        <span class="badge owner">الحالة: مدير</span>
+        <p>{{ center.description|truncatechars:100 }}</p>
+        <a href="{% url 'center_dashboard' center.slug %}" class="btn primary">إدارة المركز</a>
+    </div>
+
+    {% empty %}
+
+    <p>لست مديرا لإي مركز</p>
+
+    {% endfor %}
+
+    <h3>مراكز تعمل بها</h3>
+    {% for center in staff_centers %}
+
+    <div class="card">
+
+        <h4>{{ center.title }}</h4>
+        <span class="badge staff">الحالة: موظف</span>
+        <p>{{ center.description|truncatechars:100 }}</p>
+        <a href="{% url 'center_dashboard' center.slug %}" class="btn primary">إدارة المركز</a>
+
+    </div>
+    {% empty %}
+    <p>لست موظفا في أي مركز</p>
+    {% endfor %}
+
+</div>
+{% endblock content %}

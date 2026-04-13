@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.centers, name='centers'),
     path('center/<str:center_slug>', views.center, name='center'),
+    path('centers_dashboard',views.centers_dashboard, name= 'centers_dashboard'),
     path('center_dashboard/<str:center_slug>', views.center_dashboard, name='center_dashboard'),
     path('add_center', views.add_center, name='add_center'),
     path('edit_center/<str:center_slug>', views.edit_center, name='edit_center'),

@@ -15,7 +15,7 @@ class CenterForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model= Course
-        fields= ['title', 'subjects', 'image', 'short_discription','course_instructor', 'about_instructor',  'learning_outcomes', 'details', 'length', 'course_type', 'address', 'online_platform']
+        fields= ['title', 'subjects', 'image', 'short_discription','course_instructor', 'about_instructor',  'learning_outcomes', 'details', 'length', 'course_type', 'price', 'currency', 'installment_available', 'installment_details', 'address', 'online_platform']
 
 
 class LeadForm(forms.ModelForm):

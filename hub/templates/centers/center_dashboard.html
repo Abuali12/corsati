@@ -151,10 +151,11 @@
                 {% endfor %}
             </div>
 
-            <!-- <div class="course-price">
+            {% if course.price %}
+            <div class="course-price">
                 {{ course.price }} {{course.get_currency_display}}
-            </div> -->
-
+            </div>
+            {% endif %}
 
 
                 <!-- Dashboard Controls -->

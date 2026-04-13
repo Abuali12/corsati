@@ -49,6 +49,10 @@ class Center(models.Model):
         verbose_name_plural= 'المراكز'
         ordering= ['-created_at']
 
+        permissions = [
+            ('can_access_dashboard', 'can_access_dashboard'),
+        ]
+
     def save(self, *args, **kwargs):
         if not self.slug:
             base_slug = slugify(self.title, allow_unicode=True)
