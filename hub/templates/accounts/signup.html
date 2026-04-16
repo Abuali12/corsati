@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -73,6 +74,12 @@
 
                 <button type="submit">أنشأ الحساب</button>
             </form>
+
+            <a href="{% provider_login_url 'google' %}" class="google-btn">
+                <span>المتابعة عبر قوقل</span>
+                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+            </a>
+
             <p>لديك حساب مسبقا؟ <a href="{% url 'login' %}">قم بتسجيل الدخول</a></p>
         </div>
     </div>

@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from core.utils import center_access_required
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
 from django.db.models import Q
 from core.forms import CenterForm
@@ -27,10 +28,14 @@ def centers(request):
     if subject:
         centers= centers.filter(subjects__id= subject)
 
-        centers= centers.distinct()
+    centers= centers.distinct()
+    paged_centers= Paginator(centers, 10)
+    page_number= request.GET.get('page')
+    page= paged_centers.get_page(page_number)
 
     context= {
         'centers': centers,
+        'paged_centers': page,
         'states': State.objects.all(),
         'subjects': Subject.objects.all(),
         }

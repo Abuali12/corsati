@@ -30,12 +30,11 @@ load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-secret-key")
 
-SITE_ID= int(os.environ.get('SITE_ID', 1)) 
+SITE_ID= int(os.environ.get("SITE_ID"))
 
 DEBUG= os.environ.get('DEBUG','False') ==  'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'course-hub-5tic.onrender.com']
-
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
 # Application definition
 
@@ -69,16 +68,32 @@ AUTHENTICATION_BACKEND= [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'scope': [
+            'profile',
+            'email',
+        ],
+        'EMAIL_AUTHENTICATION': True
+    }
+}
 
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
-ACCOUNT_LOGIN_METHOD= {'email'}
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT=True
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
 LOGIN_REDIRECT_URL= 'index'
 LOGOUT_REDIRECT_URL= 'index'
 ACCOUNT_LOGOUT_REDIRECT_URL= 'index'
 ACCOUNT_ERROR_REDIRECT_URL= 'signup'
 
-SOCIALACCOUNT_LOGIN_ON_GET= True
-ACCOUNT_LOGOUT_ON_GET= True
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+SOCIALACCOUNT_AUTO_SIGNUP = True
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
@@ -186,3 +201,10 @@ STATICFILES_STORAGE= 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL= '/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 
+# mail settings
+EMAIL_BACKEND= 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST= 'smtp.gmail.com'
+EMAIL_PORT= 587
+EMAIL_USE_TLS= True
+EMAIL_HOST_USER= 'hassan.mohemmad777@gmail.com'
+EMAIL_HOST_PASSWORD= 'vgcfgrlixsiucasu'

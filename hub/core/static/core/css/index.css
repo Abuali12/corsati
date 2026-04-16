@@ -80,8 +80,8 @@
 
 /* Card */
 .feature-card {
-    background: #cfcece;
-    border: 1px solid #e5e5e5;
+    background: whitesmoke;
+    border: 1px solid whitesmoke;
     border-radius: 16px;
     width: 260px;
     padding: 25px 20px;

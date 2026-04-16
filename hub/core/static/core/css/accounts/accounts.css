@@ -63,6 +63,46 @@
     border-color: var(--primary-color);
 }
 
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    padding: 0.9rem;
+
+    border: none;
+    border-radius: 8px;
+
+    background-color: #ffffff;
+    color: #3c4043;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+    text-decoration: none;
+
+    transition: background-color 0.2s;
+}
+
+/* Google logo */
+.google-btn img {
+    width: 18px;
+    height: 18px;
+}
+
+/* Hover */
+.google-btn:hover {
+    background-color: #f1f3f4;
+}
+
+/* Active click */
+.google-btn:active {
+    background-color: #e8eaed;
+}
+
 button[type="submit"] {
     background-color: var(--primary-color);
     color: white;

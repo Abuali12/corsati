@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required, permission_required
 from core.models import Course, Center, Profile, State, Subject
 from django.db.models import Q
@@ -36,9 +39,12 @@ def courses(request):
             pass
 
     courses= courses.distinct()
+    p= Paginator(courses, 20)
+    page_number= request.GET.get("page")
+    page= p.get_page(page_number)
 
     context={
-        'courses': courses,
+        'courses': page,
         'subjects': Subject.objects.all(),
         'states': State.objects.all(),
         'type': Course.TYPE}
@@ -67,7 +73,50 @@ def course_lead(request, course_slug):
             lead.lead_type= 'course'
             lead.save()
             messages.success(request, "تم إرسال طلبك بنجاح")
-            
+            if course.center.contact_email:
+                subject = 'منصة كورساتي: طلب تسجيل في دورة'
+                text_content = f'''
+                طلب تسجيل جديد
+
+                اسم الدورة: {course.title}
+                الاسم: {lead.student_name}
+                رقم الهاتف: {lead.student_phone}
+                البريد الإلكتروني: {lead.student_email}
+
+                رسالة الطالب:
+                {lead.note if lead.note else "لا توجد رسالة إضافية"}
+                '''
+
+                html_content = f'''
+                <div dir="rtl" style="font-family: Arial; line-height: 1.8; text-align: right;">
+                    <h2>طلب تسجيل جديد</h2>
+
+                    <p><strong>اسم الدورة:</strong> {course.title}</p>
+
+                    <p><strong>بيانات الطالب:</strong></p>
+                    <ul>
+                        <li><strong>الاسم:</strong> {lead.student_name}</li>
+                        <li><strong>رقم الهاتف:</strong> {lead.student_phone}</li>
+                        <li><strong>البريد الإلكتروني:</strong> {lead.student_email}</li>
+                    </ul>
+
+                    <p><strong>رسالة الطالب:</strong></p>
+                    <p>{lead.note if lead.note else "لا توجد رسالة إضافية"}</p>
+
+                    <p>يرجى التواصل مع الطالب في أقرب وقت ممكن.</p>
+                </div>
+                '''
+                center_email= course.center.contact_email
+                email = EmailMultiAlternatives(
+                    subject,
+                    text_content,
+                    'hassan.mohemmad777@gmail.com',
+                    [center_email]
+                )
+
+                email.attach_alternative(html_content, "text/html")
+                email.send()
+
     
     return redirect('course', course_slug)
 

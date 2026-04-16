@@ -17,6 +17,8 @@
 
 <div class="centers-page">
     <!-- Filters Section -->
+         <h2 class="page-title">المراكز</h2>
+
     <section class="filters-section">
         <form method="get" class="filters-form">
 
@@ -59,7 +61,7 @@
 
     
     <section class="centers-list">
-        {% for center in centers %}
+        {% for center in paged_centers %}
         <div class="center-card">
 
 
@@ -90,6 +92,34 @@
         {% empty %}
             <p class="empty-message">لا توجد مراكز مطابقة للبحث.</p>
         {% endfor %}
+
+        {% if paged_centers.has_other_pages %}
+        <div class="pagination">
+
+            {% if paged_centers.has_previous %}
+
+            <span class="steps">
+                <a href="?page=1">الأولى</a>
+                <a href="?page={{ paged_centers.previous_page_number }}">السابقة</a>                
+            </span>
+
+            {% endif %}
+
+            <span class="current">
+                صفحة {{paged_centers.number}} من {{paged_centers.paginator.num_pages}}
+            </span>
+
+            {% if paged_centers.has_next %}
+
+            <span class="steps">
+                <a href="?page={{paged_centers.next_page_number}}">التالي</a>
+                <a href="?page={{paged_centers.paginator.num_pages }}">الأخيرة</a>
+            </span>
+            {% endif %}
+
+        </div>
+        {% endif %}
+        
     </section>
     
 

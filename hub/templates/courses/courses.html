@@ -149,7 +149,35 @@
             <p class="no-results">لا توجد دورات مطابقة لبحثك.</p>
         {% endfor %}
 
+
     </div>
+        
+    {% if courses.has_other_pages %}
+    <div class="pagination">
+
+            {% if courses.has_previous %}
+
+            <span class="steps">
+                <a href="?page=1">الأولى</a>
+                <a href="?page={{ courses.previous_page_number }}">السابقة</a>                
+            </span>
+
+            {% endif %}
+
+            <span class="current">
+                صفحة {{courses.number}} من {{courses.paginator.num_pages}}
+            </span>
+
+            {% if courses.has_next %}
+
+            <span class="steps">
+                <a href="?page={{courses.next_page_number}}">التالي</a>
+                <a href="?page={{courses.paginator.num_pages }}">الأخيرة</a>
+            </span>
+            {% endif %}
+
+    </div>
+    {% endif %}
 
 </div>
 

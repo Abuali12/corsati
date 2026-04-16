@@ -11,7 +11,11 @@
 /* Filters */
 
 .filters-section {
-    margin-bottom: 24px;
+    background: #ffffff;
+    padding: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
 }
 
 .filters-form {
@@ -145,6 +149,44 @@
     margin-top: 20px;
 }
 
+.pagination {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination .steps {
+    display: flex;
+    gap: 8px;
+}
+
+.pagination a {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination .current {
+    font-weight: bold;
+    color: #555;
+}
+
+.pagination .current {
+    background-color: #e9ecef;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
 /* CTA */
 
 .add-center {
