@@ -30,7 +30,7 @@ load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-secret-key")
 
-SITE_ID= int(os.environ.get("SITE_ID"))
+SITE_ID = int(os.environ.get("SITE_ID", 1))
 
 DEBUG= os.environ.get('DEBUG','False') ==  'True'
 
