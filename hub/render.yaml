@@ -1,12 +1,12 @@
 databases:
   - name: mysitedb
-    plan: basic
+    plan: Basic-256mb
     databaseName: mysitedb
     user: course_hub
 
 services:
   - type: web
-    plan: basic
+    plan: Starter
     name: course_hub
     runtime: python
     buildCommand: |
