@@ -45,10 +45,9 @@ services:
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        value: "['course-hub-5tic.onrender.com','www.course-hub-5tic.onrender.com']"
+        value: 'course-hub-5tic.onrender.com,www.course-hub-5tic.onrender.com'
       - key: SITE_ID
         value: 2
-
       - key: DJANGO_SUPERUSER_USERNAME
         value: admin
       - key: DJANGO_SUPERUSER_EMAIL
