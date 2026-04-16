@@ -1,12 +1,12 @@
 databases:
   - name: mysitedb
-    plan: free
+    plan: basic
     databaseName: mysitedb
     user: course_hub
 
 services:
   - type: web
-    plan: free
+    plan: basic
     name: course_hub
     runtime: python
     buildCommand: |
