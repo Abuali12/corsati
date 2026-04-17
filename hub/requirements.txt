@@ -11,12 +11,12 @@ dotenv==0.9.9
 gunicorn==25.1.0
 h11==0.16.0
 idna==3.11
-jwt==1.4.0
 packaging==26.0
 pathlib==1.0.1
 pillow==12.1.0
 psycopg2-binary==2.9.11
 pycparser==2.23
+PyJWT==2.12.1
 python-dotenv==1.2.1
 requests==2.32.5
 sqlparse==0.5.5
