@@ -30,19 +30,13 @@
         <div class="form-group">
             {{ form.title.label_tag }}
             {{ form.title }}
-            {{ form.title.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.center.label_tag }}
-            {{ form.center }}
-            {{ form.center.errors }}
+            {{ form.title.errors.0 }}
         </div>
 
         <div class="form-group">
             {{ form.subjects.label_tag }}
             {{ form.subjects }}
-            {{ form.subjects.errors }}
+            {{ form.subjects.errors.0 }}
         </div>
 
     </div>
@@ -53,13 +47,25 @@
         <h3>صورة الإعلان</h3>
 
         <div class="form-group">
+        <p class="note">حقل اختياري</p>
+
+<label>
+    {{ form.image.label }}
+</label>
 
             {% if form.instance.image %}
                 <img src="{{ form.instance.image.url }}" class="image-preview">
             {% endif %}
 
             {{ form.image }}
-            {{ form.image.errors }}
+
+            <small class="note">يفضل صورة واضحة تمثل الدورة</small>
+
+            {% if form.image.errors %}
+                <div class="error-message">
+                    {{ form.image.errors.0 }}
+                </div>
+            {% endif %}
 
         </div>
 
@@ -74,19 +80,20 @@
         <div class="form-group">
             {{ form.short_discription.label_tag }}
             {{ form.short_discription }}
-            {{ form.short_discription.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.learning_outcomes.label_tag }}
-            {{ form.learning_outcomes }}
-            {{ form.learning_outcomes.errors }}
+            {{ form.short_discription.errors.0 }}
         </div>
 
         <div class="form-group">
             {{ form.details.label_tag }}
             {{ form.details }}
-            {{ form.details.errors }}
+            {{ form.details.errors.0 }}
+        </div>
+
+        <div class="form-group">
+        <p class="note">حقل اختياري</p>
+            {{ form.learning_outcomes.label_tag }}
+            {{ form.learning_outcomes }}
+            {{ form.learning_outcomes.errors.0 }}
         </div>
 
     </div>
@@ -99,19 +106,39 @@
         <div class="form-group">
             {{ form.length.label_tag }}
             {{ form.length }}
-            {{ form.length.errors }}
+            {{ form.length.errors.0 }}
         </div>
 
         <div class="form-group">
             {{ form.course_type.label_tag }}
             {{ form.course_type }}
-            {{ form.course_type.errors }}
+            {{ form.course_type.errors.0 }}
+        </div>
+
+    </div>
+
+        <!-- Location -->
+    <div class="form-section">
+        <h3>مكان الدورة</h3>
+
+        <p class="note">يرجى تعبئة خانة المكان إن كانت الدورة حضوريا، وخانة المنصة إن كانت الدورة عن بعد</p>
+        <div class="form-group">
+            {{ form.address.label_tag }}
+            {{ form.address }}
+            {{ form.address.errors.0 }}
+        </div>
+
+        <div class="form-group">
+            {{ form.online_platform.label_tag }}
+            {{ form.online_platform }}
+            {{ form.online_platform.errors }}
         </div>
 
     </div>
 
     <div class="form-section">
         <h3>مدرب الدورة</h3>
+        <p class="note">حقول اختيارية</p>
         <div class="form-group">
             {{ form.course_instructor.label_tag }}
             {{ form.course_instructor }}
@@ -125,29 +152,13 @@
         </div>
     </div>
 
-    <!-- Location -->
-    <div class="form-section">
-        <h3>مكان الدورة</h3>
-
-        <p class="note">يرجى تعبئة خانة المكان إن كانت الدورة حضوريا، وخانة المنصة إن كانت الدورة عن بعد</p>
-        <div class="form-group">
-            {{ form.address.label_tag }}
-            {{ form.address }}
-            {{ form.address.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.online_platform.label_tag }}
-            {{ form.online_platform }}
-            {{ form.online_platform.errors }}
-        </div>
-
-    </div>
 
 
     <!-- Price -->
     <div class="form-section">
         <h3>السعر</h3>
+
+        <p class="note">حقول اختيارية</p>
 
         <div class="price-grid">
 
@@ -171,15 +182,20 @@
     <!-- Installments -->
     <div class="form-section">
 
+        <h3>التقسيط</h3>
+        <p class="note">حقول اختيارية</p>
+
         <div class="checkbox-group">
-            {{ form.installment_available }}
             {{ form.installment_available.label_tag }}
+            {{ form.installment_available }}
+            {{ form.installment_available.errors.0 }}
+
         </div>
 
         <div class="form-group">
             {{ form.installment_details.label_tag }}
             {{ form.installment_details }}
-            {{ form.installment_details.errors }}
+            {{ form.installment_details.errors.0 }}
         </div>
 
     </div>

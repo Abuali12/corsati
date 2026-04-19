@@ -13,9 +13,12 @@ class CenterForm(forms.ModelForm):
     
 
 class CourseForm(forms.ModelForm):
+    error_css_class= 'error'
+    required_css_class= 'required'
+    use_required_attribute= True
     class Meta:
         model= Course
-        fields= ['title', 'subjects', 'image', 'short_discription','course_instructor', 'about_instructor',  'learning_outcomes', 'details', 'length', 'course_type', 'price', 'currency', 'installment_available', 'installment_details', 'address', 'online_platform']
+        fields= ['title', 'subjects', 'image', 'short_discription','learning_outcomes','course_instructor', 'about_instructor', 'details', 'length', 'course_type', 'price', 'currency', 'installment_available', 'installment_details', 'address', 'online_platform']
 
 
 class LeadForm(forms.ModelForm):

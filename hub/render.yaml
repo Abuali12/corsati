@@ -33,3 +33,5 @@ services:
         value: 'course-hub-5tic.onrender.com,www.course-hub-5tic.onrender.com'
       - key: SITE_ID
         value: '2'
+      - key: 'EMAIL_HOST_PASSWORD'
+        value: 'rglcwbnzwcwezzxz'

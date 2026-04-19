@@ -32,8 +32,10 @@
                 </a>
             </p>
 
+
             <div class="course-price-box">
-                <!-- <span class="price">
+            {% if coures.price %}
+                <span class="price">
                     {{ course.price }} {{ course.get_currency_display }}
                 </span>
 
@@ -41,7 +43,8 @@
                     <span class="installment-badge">
                         يمكن التقسيط
                     </span>
-                {% endif %} -->
+                {% endif %}
+            {% endif %}
 
             <button id="openEnrollModal" class="enroll-btn">
                 طلب التسجيل
@@ -104,12 +107,12 @@
                 </li>
                 {% endif %}
 
-                <!-- {% if course.installment_available %}
+                {% if course.installment_available %}
                 <li>
                     <strong>تفاصيل التقسيط:</strong>
                     {{ course.installment_details|linebreaksbr }}
                 </li>
-                {% endif %} -->
+                {% endif %}
 
             </ul>
 

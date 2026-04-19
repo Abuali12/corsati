@@ -74,7 +74,7 @@ def course_lead(request, course_slug):
             lead.save()
             messages.success(request, "تم إرسال طلبك بنجاح")
             if course.center.contact_email:
-                subject = 'منصة كورساتي: طلب تسجيل في دورة'
+                subject = 'منصة كورساتي: طلب تسجيل لدورة'
                 text_content = f'''
                 طلب تسجيل جديد
 
