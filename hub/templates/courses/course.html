@@ -34,9 +34,13 @@
 
 
             <div class="course-price-box">
-            {% if coures.price %}
+            {% if course.price  or course.price == 0%}
                 <span class="price">
-                    {{ course.price }} {{ course.get_currency_display }}
+                        {% if course.price == 0 %}
+                        مجانا
+                        {% else %}
+                        {{ course.price }} {{ course.get_currency_display }}
+                        {% endif %}
                 </span>
 
                 {% if course.installment_available %}

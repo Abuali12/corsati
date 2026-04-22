@@ -125,12 +125,16 @@
                 {% endfor %}
             </div>
 
-            {% if course.price %}
+            {% if course.price  or course.price == 0%}
             
                 <div class="course-footer">
 
                     <span class="course-price">
+                        {% if course.price == 0 %}
+                        مجانا
+                        {% else %}
                         {{ course.price }} {{ course.get_currency_display }}
+                        {% endif %}
                     </span>
 
                     {% if course.installment_available %}

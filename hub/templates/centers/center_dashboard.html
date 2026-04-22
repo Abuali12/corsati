@@ -92,7 +92,7 @@
                 <li>✉️ {{ center.contact_email }}</li>
             {% endif %}
             {% if center.website %}
-                <li>🌐 <a href="{{ center.website }}" target="_blank">{{ center.website }}</a></li>
+                <li>🌐 <a href="{{ center.website }}" target="_blank">{{ center.website|truncatechars:50 }}</a></li>
             {% endif %}
         </ul>
     </div>
@@ -151,10 +151,14 @@
                 {% endfor %}
             </div>
 
-            {% if course.price %}
-            <div class="course-price">
-                {{ course.price }} {{course.get_currency_display}}
-            </div>
+            {% if course.price  or course.price == 0%}
+                <div class="course-price">
+                    {% if course.price == 0 %}
+                    مجانا
+                    {% else %}
+                    {{ course.price }} {{ course.get_currency_display }}
+                    {% endif %}
+                </div>
             {% endif %}
 
 

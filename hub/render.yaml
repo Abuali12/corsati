@@ -27,8 +27,10 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+      - key: SUPABASE_KEY
+        value: 'sb_publishable_2MCIsQ1ONzm8QOoVSnd_FQ_KlPsUa7J'
       - key: DEBUG
-        value: "True"
+        value: "False"
       - key: ALLOWED_HOSTS
         value: 'course-hub-5tic.onrender.com,www.course-hub-5tic.onrender.com'
       - key: SITE_ID
