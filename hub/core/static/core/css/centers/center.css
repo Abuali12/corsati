@@ -114,63 +114,35 @@
     gap: 1.5rem;
 }
 
-.course-card {
-    background: #ffffff;
-    padding: 1.5rem;
-    border-radius: 18px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease;
-}
-
-.course-card:hover {
-    transform: translateY(-4px);
-}
-
-.course-card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-}
-
-.course-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.course-description {
-    font-size: 0.9rem;
-    color: #475569;
-    margin: 0.7rem 0;
-}
-
-.course-price {
-    font-weight: 600;
-    margin-top: 0.8rem;
-}
-
-.installment {
-    color: #16a34a;
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
-}
-
-.btn-primary {
-    background: #2563eb;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: 0.2s ease;
+/* Base */
+.status {
     display: inline-block;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
 }
 
-.btn-primary:hover {
-    background: #1d4ed8;
+/* Pending */
+.status-pending {
+    background-color: #fff4e5;
+    color: #b26a00;
+    border: 1px solid #ffd8a8;
+}
+
+/* Active */
+.status-active {
+    background-color: #e6f4ea;
+    color: #1e7e34;
+    border: 1px solid #b7e4c7;
+}
+
+/* Inactive */
+.status-inactive {
+    background-color: #fbeaea;
+    color: #b02a37;
+    border: 1px solid #f5c2c7;
 }
 
 .btn-secondary {

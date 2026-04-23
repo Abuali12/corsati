@@ -70,8 +70,8 @@
         {% if course.course_instructor%}
         <div class="course-section">
             <h3>مقدم الدورة</h3>
-            <p>{{ course.course_instructor }}</p>
-            <p>{{ course.about_instructor|linebreaksbr }}</p>
+            <p>اسم المدرب: {{ course.course_instructor }}</p>
+            <p>مؤهلات المدرب: {{ course.about_instructor|linebreaksbr }}</p>
         </div>
         {% endif %}
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from core.models import Center, State, Subject, Profile
+from core.utils import upload_to_supabase
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -78,6 +79,16 @@ def add_center(request):
         if form.is_valid():
             center=form.save(commit=False)
             center.owner= request.user
+
+            if request.FILES.get('logo'):
+                print('uploading...')
+                logo_url= upload_to_supabase(
+                    request.FILES['logo'],
+                    folder= 'centers_logos'
+                )
+                print(logo_url)
+                center.logo_url= logo_url
+
             center.save()
             form.save_m2m()
             manager_group= Group.objects.get(name='Manager')
@@ -103,7 +114,6 @@ def edit_center(request, center_slug):
         form=CenterForm(request.POST, request.FILES, instance=center)
         if form.is_valid():
             center=form.save(commit=False)
-            center.is_verified=False
             center.updated_at= datetime.datetime.now()
             center.save()
             form.save_m2m()

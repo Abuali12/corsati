@@ -210,5 +210,5 @@ EMAIL_HOST_PASSWORD= os.environ.get('EMAIL_HOST_PASSWORD')
 
 #supabase
 SUPABASE_URL= 'https://tafeclqbovzexslwrofd.supabase.co'
-SUPABASE_KEY= os.environ.get('SUPABASE_KEY')
+SUPABASE_KEY= os.environ.get('service_role')
 SUPABASE_BUCKET= 'corsati-imgs'

@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required, permission_required
 from core.models import Course, Center, Profile, State, Subject
+from core.utils import upload_to_supabase
 from django.db.models import Q
 from django.contrib import messages
 from core.forms import CourseForm, LeadForm
@@ -132,6 +133,17 @@ def add_course(request, center_slug):
             course=form.save(commit=False)
             course.center= center
             course.created_by= request.user
+
+            if request.FILES.get('image'):
+                print('uploading...')
+                image_url= upload_to_supabase(
+                    request.FILES['image'],
+                    folder='courses',
+                )
+                print(image_url)
+                course.image_url=image_url
+
+
             course.save()
             form.save_m2m()
             return redirect('center_dashboard', center.slug)
@@ -149,7 +161,6 @@ def edit_course(request, course_slug):
         form=CourseForm(request.POST, request.FILES, instance=course)
         if form.is_valid():
             course=form.save(commit=False)
-            course.is_verified=False
             course.save()
             form.save_m2m()
             return redirect('center_dashboard', course.center.slug)
@@ -170,11 +181,11 @@ def delete_course(request, course_slug):
     return redirect('center_dashboard', course.center.slug)
 
 @login_required
-@center_access_required
-def deactivate(request, course_slug):
+@permission_required('core.delete_course', raise_exception=True)
+def toggle_activity(request, course_slug):
 
     course= Course.objects.get(slug= course_slug)
-    course.is_active= False
+    course.is_active= not course.is_active
     course.save()
     return redirect('center_dashboard', course.center.slug)
 

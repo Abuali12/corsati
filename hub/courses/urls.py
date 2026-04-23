@@ -8,6 +8,6 @@ urlpatterns= [
     path('add_course/<str:center_slug>', views.add_course, name='add_course'),
     path('edit_course/<str:course_slug>', views.edit_course, name='edit_course'),
     path('delete_course/<str:course_slug>', views.delete_course, name='delete_course'),
-    path('deactivate_course/<str:course_slug>', views.deactivate, name= 'deactivate_course'),
+    path('toggle_course_activity/<str:course_slug>', views.toggle_activity, name= 'toggle_course'),
     path('clear/', views.clear, name='clear_course'),    
 ]
