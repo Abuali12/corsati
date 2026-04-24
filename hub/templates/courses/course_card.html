@@ -30,6 +30,21 @@
             <p class="course-type">
                 نوع الدورة:
                 {{ course.get_course_type_display }}
+
+                {% if course.address %}
+                    <li>
+                        <strong>المكان:</strong>
+                        {{ course.address }}
+                    </li>
+                {% endif %}
+
+                {% if course.online_platform %}
+                    <li>
+                        <strong>المنصة:</strong>
+                        {{ course.online_platform }}
+                </li>
+                {% endif %}
+
             </p>
 
             <p class="course-description">
