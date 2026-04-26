@@ -7,6 +7,8 @@ from core.models import Course, Center, Profile, State, Subject
 from core.utils import upload_to_supabase
 from django.db.models import Q
 from django.contrib import messages
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from core.forms import CourseForm, LeadForm
 from core.utils import center_access_required
 import datetime
@@ -73,41 +75,26 @@ def course_lead(request, course_slug):
             lead.course= course
             lead.lead_type= 'course'
             lead.save()
-            messages.success(request, "تم إرسال طلبك بنجاح")
+            messages.success(request, "تم إرسال طلبك بنجاح، سيتواصل معك المركز قريبا!")
+
+            # center email
             if course.center.contact_email:
                 subject = 'منصة كورساتي: طلب تسجيل لدورة'
-                text_content = f'''
-                طلب تسجيل جديد
 
-                اسم الدورة: {course.title}
-                الاسم: {lead.student_name}
-                رقم الهاتف: {lead.student_phone}
-                البريد الإلكتروني: {lead.student_email}
+                html_content = render_to_string(
+                    'emails/center_alert.html',{
+                        'student_name': lead.student_name,
+                        'student_email': lead.student_email,
+                        'student_phone': lead.student_phone,
+                        'note': lead.note,
+                        'course_title': course.title,
 
-                رسالة الطالب:
-                {lead.note if lead.note else "لا توجد رسالة إضافية"}
-                '''
+                    }
+                )
+                text_content = strip_tags(html_content)
 
-                html_content = f'''
-                <div dir="rtl" style="font-family: Arial; line-height: 1.8; text-align: right;">
-                    <h2>طلب تسجيل جديد</h2>
-
-                    <p><strong>اسم الدورة:</strong> {course.title}</p>
-
-                    <p><strong>بيانات الطالب:</strong></p>
-                    <ul>
-                        <li><strong>الاسم:</strong> {lead.student_name}</li>
-                        <li><strong>رقم الهاتف:</strong> {lead.student_phone}</li>
-                        <li><strong>البريد الإلكتروني:</strong> {lead.student_email}</li>
-                    </ul>
-
-                    <p><strong>رسالة الطالب:</strong></p>
-                    <p>{lead.note if lead.note else "لا توجد رسالة إضافية"}</p>
-
-                    <p>يرجى التواصل مع الطالب في أقرب وقت ممكن.</p>
-                </div>
-                '''
                 center_email= course.center.contact_email
+                
                 email = EmailMultiAlternatives(
                     subject,
                     text_content,
@@ -118,7 +105,29 @@ def course_lead(request, course_slug):
                 email.attach_alternative(html_content, "text/html")
                 email.send()
 
-    
+                #user email
+            if lead.student_email: 
+                subject= 'تم قبول طلبك'
+                html_content= render_to_string(
+                    'emails/application_accepted.html',{
+                        'student_name':lead.student_name,
+                        'course_name': course.title,
+                        'center_name': course.center.title,
+                        'center_phone': course.center.contact_phone,
+                    }
+                )
+                text_content= strip_tags(html_content)
+
+                email= EmailMultiAlternatives(
+                    subject,
+                    text_content,
+                    'hassan.mohemmad777@gmail.com',
+                    [lead.student_email]
+                )
+
+                email.attach_alternative(html_content, 'text/html')
+                email.send(fail_silently=True)
+
     return redirect('course', course_slug)
 
 # ============= CRUD views ==================

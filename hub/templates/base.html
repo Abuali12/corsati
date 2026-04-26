@@ -26,11 +26,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PT37BJKG"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
     {% include 'parts/header.html' %}
+
+    {% include 'parts/messages.html' %}
+
     <div class="main-container">
         {% block content %}
         {% endblock content %}
     </div>
+
     {% include 'parts/footer.html' %}
+    
 </body>
 </html>

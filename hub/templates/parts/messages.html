@@ -1,0 +1,19 @@
+{% if messages %}
+
+<div class="messages">
+
+    {% for message in messages %}
+
+        <div class="alert {{message.tags}}">
+
+            {{message}}
+
+            <button class="close-msg" onclick="this.parentElement.remove()">x</button>
+            
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
