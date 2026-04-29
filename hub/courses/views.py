@@ -107,7 +107,7 @@ def course_lead(request, course_slug):
 
                 #user email
             if lead.student_email: 
-                subject= 'تم قبول طلبك'
+                subject= 'تم إرسال طلبك'
                 html_content= render_to_string(
                     'emails/application_accepted.html',{
                         'student_name':lead.student_name,
@@ -155,6 +155,7 @@ def add_course(request, center_slug):
 
             course.save()
             form.save_m2m()
+            messages.success(request, 'أضيف الدورة بنجاح! ستتم مراجعتها من قبل الإدارة قريبا!')
             return redirect('center_dashboard', center.slug)
     else:
         form= CourseForm()
@@ -196,6 +197,10 @@ def toggle_activity(request, course_slug):
     course= Course.objects.get(slug= course_slug)
     course.is_active= not course.is_active
     course.save()
+    if course.is_active == True:
+        messages.success(request, 'أعيد تفعيل الدورة!')
+    else:
+        messages.success(request, 'تم تعطيل الدورة مؤقتا، لن تظهر للطلاب في قائمة الدورات')
     return redirect('center_dashboard', course.center.slug)
 
 def clear(request):

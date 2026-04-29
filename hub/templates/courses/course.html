@@ -62,6 +62,17 @@
     <!-- ===== COURSE DETAILS ===== -->
     <div class="course-sections">
 
+        {% if course.subjects.all %}
+        <div class="course-section">
+            <h3>مجالات الدورة</h3>
+            <div class="subject-tags">
+                {% for subject in course.subjects.all %}
+                    <span class="subject-tag">{{ subject.title }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         <div class="course-section">
             <h3>تفاصيل الدورة</h3>
             <p>{{ course.details|linebreaksbr }}</p>
@@ -122,16 +133,7 @@
 
         </div>
 
-        {% if course.subjects.all %}
-        <div class="course-section">
-            <h3>مجالات الدورة</h3>
-            <div class="subject-tags">
-                {% for subject in course.subjects.all %}
-                    <span class="subject-tag">{{ subject.title }}</span>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
+
 
     </div>
 

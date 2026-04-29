@@ -93,6 +93,7 @@ def add_center(request):
             form.save_m2m()
             manager_group= Group.objects.get(name='Manager')
             request.user.groups.add(manager_group)
+            messages.success(request, 'لقد أنشئت مركزك بنجاح! قم بزيارة لوحة التحكم وأضف دوراتك الآن!')
             return redirect('center_dashboard', center.slug)
     else:
             form=CenterForm()
@@ -117,7 +118,7 @@ def edit_center(request, center_slug):
             center.updated_at= datetime.datetime.now()
             center.save()
             form.save_m2m()
-            messages.success(request, "تم تحديث بيانات المركز بنجاح، سيتم مراجعة التغييرات من قبل الإدارة خلال 24 ساعة")
+            messages.success(request, "تم تحديث بيانات المركز بنجاح!")
             return redirect('center_dashboard', center_slug)
     else:
         form=CenterForm(instance=center)
