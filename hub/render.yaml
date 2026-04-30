@@ -17,7 +17,7 @@ services:
 
     startCommand: |
       cd hub
-      gunicorn hub.asgi:application -k uvicorn.workers.UvicornWorker
+      gunicorn hub.asgi:application -k uvicorn.workers.UvicornWorker --workers 2
     envVars:
       - key: DATABASE_URL
         fromDatabase:
