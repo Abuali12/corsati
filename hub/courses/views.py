@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required, permission_required
 from core.models import Course, Center, Profile, State, Subject
+from django.db.models import Count
 from core.utils import upload_to_supabase
 from django.db.models import Q
 from django.contrib import messages
@@ -48,7 +49,9 @@ def courses(request):
 
     context={
         'courses': page,
-        'subjects': Subject.objects.all(),
+        'subjects': Subject.objects.annotate(
+            course_count= Count('courses', distinct=True, filter=Q(courses__is_verified= True, courses__is_active= True, courses__is_deleted= False))
+        ).filter(course_count__gt=0),
         'states': State.objects.all(),
         'type': Course.TYPE}
     

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from core.models import Center, State, Subject, Profile
 from core.utils import upload_to_supabase
 from django.contrib.auth.models import Group
+from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from core.utils import center_access_required
@@ -38,7 +39,9 @@ def centers(request):
         'centers': centers,
         'paged_centers': page,
         'states': State.objects.all(),
-        'subjects': Subject.objects.all(),
+        'subjects': Subject.objects.annotate(
+            center_count= Count('centers', distinct=True, filter=Q(centers__is_active= True, centers__is_verified= True, centers__is_deleted= False))
+        ).filter(center_count__gt=0),
         }
     return render(request, 'centers/centers.html', context)
 
@@ -93,7 +96,7 @@ def add_center(request):
             form.save_m2m()
             manager_group= Group.objects.get(name='Manager')
             request.user.groups.add(manager_group)
-            messages.success(request, 'لقد أنشئت مركزك بنجاح! قم بزيارة لوحة التحكم وأضف دوراتك الآن!')
+            messages.success(request, 'لقد أنشئت مركزك بنجاح! أضف دوراتك الآن!')
             return redirect('center_dashboard', center.slug)
     else:
             form=CenterForm()

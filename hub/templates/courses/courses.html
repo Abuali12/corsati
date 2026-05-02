@@ -39,7 +39,7 @@
                         {% if request.GET.subject == subject.id|stringformat:'s' %}
                             selected
                         {% endif %}>
-                            {{ subject.title }}
+                            {{ subject.title }} ({{ subject.course_count }} دورة)
                         </option>
                     {% endfor %}
                 </select>

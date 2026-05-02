@@ -39,7 +39,7 @@
                 {% for subject in subjects %}
                 <option value="{{subject.id}}"
                 {%if request.GET.subject == subject.id|stringformat:'s' %}selected{% endif %}>
-                {{subject.title}}
+                {{subject.title}} ({{ subject.center_count }} مركز)
                 </option>
                 {% endfor %}
             </select>
