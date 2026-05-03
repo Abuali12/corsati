@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+طلبات التسجيل
+{% endblock title%}
+
+{% block styles %}
+{% endblock styles%}
+
+{% block content %}
+<search>
+
+</search>
+
+<main>
+    <table>
+        <thead>
+            <th>اسم الطالب</th>
+            <th>رقم الهاتف</th>
+            <th>البريد الإلكتروني</th>
+            <th>اسم الدورة</th>
+            <th>الحالة</th>
+        </thead>
+        <tbody>
+            {% for lead in leads %}
+            <tr>
+                <td> {{lead.student_name}} </td>
+                <td> {{lead.student_phone}} </td>
+                <td> {{lead.student_email}} </td>
+                <td> {{lead.course.title}} </td>
+                <td> {{lead.status}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</main>
+{% endblock content %}

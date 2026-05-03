@@ -99,8 +99,33 @@
     </div>
     {% endif %}
 
-</section>
 
+    <div class="leads-section">
+        <h3>ملخص طلبات التسجيل</h3>
+        <table>
+            <thead>
+                <th>النوع</th>
+                <th>العدد</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>جديد</td>
+                    <td> {{leads_summery.new}} </td>
+                </tr>
+                <tr>
+                    <td>تم التواصل معه</td>
+                    <td> {{leads_summery.contacted}} </td>
+                </tr>
+                <tr>
+                    <td>المجموع</td>
+                    <td> {{leads_summery.total}} </td>
+                </tr>
+            </tbody>
+        </table>
+        <button><a href="{% url 'leads' center.slug%}">طلبات التسجيل</a></button>
+    </div>
+
+    </section>
 
    <section class="courses-section">
 
@@ -180,6 +205,10 @@
                     {% endif %}
                 </div>
             {% endif %}
+
+            <div class="leads-count">
+                عدد طلبات التسجيل: {{course.lead_count}}
+            </div>
 
 
                 <!-- Dashboard Controls -->

@@ -76,6 +76,7 @@ def course_lead(request, course_slug):
         if form.is_valid():
             lead= form.save(commit=False)
             lead.course= course
+            lead.center= course.center
             lead.lead_type= 'course'
             lead.save()
             messages.success(request, "تم إرسال طلبك بنجاح، سيتواصل معك المركز قريبا!")
