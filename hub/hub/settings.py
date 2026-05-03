@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'centers.apps.CentersConfig',
     'courses.apps.CoursesConfig',
     'accounts.apps.AccountsConfig',
+    'dashboard.apps.DashboardConfig',
 
     # all-auth
     'django.contrib.sites',
@@ -63,9 +64,11 @@ INSTALLED_APPS = [
 
 ]
 
+SOCIALACCOUNT_ADAPTER = "accounts.adapters.MyAdapter"
+
 AUTHENTICATION_BACKEND= [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
