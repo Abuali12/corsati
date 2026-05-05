@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <link rel="stylesheet" href="{% static 'core/css/centers/center.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/courses/course-card.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/dashboard/center_dashboard.css' %}">
 {% endblock styles%}
 
 {% block content %}
@@ -108,21 +109,27 @@
                 <th>العدد</th>
             </thead>
             <tbody>
-                <tr>
+                <tr  class="status-new">
                     <td>جديد</td>
                     <td> {{leads_summery.new}} </td>
                 </tr>
-                <tr>
+                <tr class="status-contacted">
                     <td>تم التواصل معه</td>
                     <td> {{leads_summery.contacted}} </td>
                 </tr>
-                <tr>
+                <tr class="status-closed">
+                    <td>مغلق</td>
+                    <td> {{leads_summery.closed}} </td>
+                </tr>
+                <tr class="status-total">
                     <td>المجموع</td>
                     <td> {{leads_summery.total}} </td>
                 </tr>
             </tbody>
         </table>
-        <button><a href="{% url 'leads' center.slug%}">طلبات التسجيل</a></button>
+
+        <a class="leads-btn" href="{% url 'leads' center.slug%}">طلبات التسجيل</a>    
+    
     </div>
 
     </section>

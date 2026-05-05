@@ -6,11 +6,52 @@
 {% endblock title%}
 
 {% block styles %}
+<link rel="stylesheet" href="{% static 'core/css/dashboard/leads.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/pagination.css' %}">
 {% endblock styles%}
 
 {% block content %}
 <search>
+    <form method="get">
+        <input type="text" placeholder="البحث باسم أو رقم الطالب" name="q" value="{{request.GET.q}}">
 
+        <select name="course" id="course">
+
+            <option value="">الدورات - الكل</option>
+
+            {% for course in courses %}
+
+            <option 
+            value="{{course.id}}"
+            {% if request.GET.course == course.id|stringformat:'s' %}
+            selected
+            {% endif %}>
+                {{course.title}} ({{course.lead_count}} طلب)
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+        <select name="status" id="status">
+            <option value="">الحالة - الكل</option>
+
+            {% for value,type in status_types %}
+
+                <option value="{{value}}"
+                {% if request.GET.status == value %}
+                selected
+                {% endif %}>
+                    {{type}}
+                </option>
+
+            {% endfor %}
+
+        </select>
+        
+        <button type="submit">بحث</button>
+        <button><a href="{% url 'lead_clear' center.slug %}">تصفية البحث</a></button>
+    </form>
 </search>
 
 <main>
@@ -21,19 +62,75 @@
             <th>البريد الإلكتروني</th>
             <th>اسم الدورة</th>
             <th>الحالة</th>
+            <th>تعيين الحالة</th>
         </thead>
         <tbody>
             {% for lead in leads %}
             <tr>
-                <td> {{lead.student_name}} </td>
-                <td> {{lead.student_phone}} </td>
-                <td> {{lead.student_email}} </td>
-                <td> {{lead.course.title}} </td>
-                <td> {{lead.status}} </td>
+                <td data-label="اسم الطالب">
+                    <div class="cell-content">
+                        {{lead.student_name}}
+                    </div> 
+                </td>
+                <td data-label="رقم الطالب">
+                    <div class="cell-content">
+                        {{lead.student_phone}}
+                    </div> 
+                </td>
+                <td data-label="البريد الإلكتروني">
+                    <div class="cell-content">
+                        {{lead.student_email}}
+                    </div> 
+                </td>
+                <td data-label="الدورة">
+                    <div class="cell-content">
+                        {{lead.course.title}}
+                    </div>                 
+                </td>
+                
+                <td class="status status-{{ lead.status }}" data-label="الحالة">
+                    <div class="cell-content">
+                        {{lead.get_status_display}}
+                    </div> 
+                 </td>
+                
+                <td data-label="تعيين ك">
+                    <a href="{% url 'contacted_lead' lead.id %}">تم التواصل معه</a>
+                    <a href="{% url 'closed_lead' lead.id %}">مغلق</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+
+
+    {% if leads.has_other_pages %}
+    <div class="pagination">
+
+            {% if leads.has_previous %}
+
+            <span class="steps">
+                <a href="?page=1">الأولى</a>
+                <a href="?page={{ leads.previous_page_number }}">السابقة</a>                
+            </span>
+
+            {% endif %}
+
+            <span class="current">
+                صفحة {{leads.number}} من {{leads.paginator.num_pages}}
+            </span>
+
+            {% if leads.has_next %}
+
+            <span class="steps">
+                <a href="?page={{leads.next_page_number}}">التالي</a>
+                <a href="?page={{leads.paginator.num_pages }}">الأخيرة</a>
+            </span>
+            {% endif %}
+
+    </div>
+    {% endif %}
 
 </main>
 {% endblock content %}

@@ -41,7 +41,8 @@ def center_dashboard(request, center_slug):
         leads_summery= Lead.objects.filter(center=center, course__is_deleted= False).aggregate(
             total= Count('id'),
             new= Count('id', filter=Q(status= 'new')),
-            contacted= Count('id', filter=Q(status= 'contacted'))
+            contacted= Count('id', filter=Q(status= 'contacted')),
+            closed= Count('id', filter=Q(status=  'closed')),
         )
 
         context={
@@ -58,15 +59,47 @@ def center_dashboard(request, center_slug):
 def leads(request, center_slug):
 
     center= get_object_or_404(Center, slug=center_slug)
-
+    
+    courses= center.courses.filter(is_deleted=False).annotate(lead_count= Count('leads'))
+    
     leads= Lead.objects.filter(center= center).select_related('course')
 
-    paginator= Paginator(leads, 20)
+    q= request.GET.get('q')
+    course= request.GET.get('course')
+    status= request.GET.get('status')
+
+    if q:
+        leads= leads.filter(Q(student_name__icontains=q))
+
+    if course:
+        leads= leads.filter(course__id= course)
+
+    if status:
+        leads= leads.filter(status=status)
+
+    paginator= Paginator(leads, 10)
     page= request.GET.get('page')
     leads_page= paginator.get_page(page)
 
     context={
         'center': center,
+        'courses': courses.filter(lead_count__gt=0).order_by('-lead_count'),
         'leads': leads_page,
+        'status_types': Lead.STATUS_CHOICES
     }
     return render(request, 'dashboard/leads.html', context)
+
+def lead_clear(request, center_slug):
+    return redirect('leads', center_slug)
+
+def contacted_lead(request, id):
+    lead= Lead.objects.get(id= id)
+    lead.status= 'contacted'
+    lead.save()
+    return redirect('leads', lead.center.slug)
+
+def closed_lead(request, id):
+    lead= Lead.objects.get(id= id)
+    lead.status= 'closed'
+    lead.save()
+    return redirect('leads', lead.center.slug)
