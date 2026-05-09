@@ -97,8 +97,8 @@
             {% if courses.has_previous %}
 
             <span class="steps">
-                <a href="?page=1">الأولى</a>
-                <a href="?page={{ courses.previous_page_number }}">السابقة</a>                
+                <a href="?page=1&{{query}}">الأولى</a>
+                <a href="?page={{ courses.previous_page_number }}&{{query}}">السابقة</a>                
             </span>
 
             {% endif %}
@@ -110,8 +110,8 @@
             {% if courses.has_next %}
 
             <span class="steps">
-                <a href="?page={{courses.next_page_number}}">التالي</a>
-                <a href="?page={{courses.paginator.num_pages }}">الأخيرة</a>
+                <a href="?page={{courses.next_page_number}}&{{query}}">التالي</a>
+                <a href="?page={{courses.paginator.num_pages }}&{{query}}">الأخيرة</a>
             </span>
             {% endif %}
 

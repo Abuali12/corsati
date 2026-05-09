@@ -43,17 +43,25 @@ def courses(request):
             pass
 
     courses= courses.distinct()
+
+
     p= Paginator(courses, 20)
     page_number= request.GET.get("page")
     page= p.get_page(page_number)
 
+    query= request.GET.copy()
+    if 'page' in query:
+        query.pop('page')
+
+    print (query)
     context={
         'courses': page,
         'subjects': Subject.objects.annotate(
             course_count= Count('courses', distinct=True, filter=Q(courses__is_verified= True, courses__is_active= True, courses__is_deleted= False))
         ).filter(course_count__gt=0),
         'states': State.objects.all(),
-        'type': Course.TYPE}
+        'type': Course.TYPE,
+        'query': query.urlencode()}
     
     return render(request, 'courses/courses.html',context)
 

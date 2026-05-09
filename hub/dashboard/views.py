@@ -81,11 +81,19 @@ def leads(request, center_slug):
     page= request.GET.get('page')
     leads_page= paginator.get_page(page)
 
+    query= request.GET.copy()
+
+    if 'page' in query:
+        query.pop('page')
+
+    
+
     context={
         'center': center,
         'courses': courses.filter(lead_count__gt=0).order_by('-lead_count'),
         'leads': leads_page,
-        'status_types': Lead.STATUS_CHOICES
+        'status_types': Lead.STATUS_CHOICES,
+        'query': query.urlencode()
     }
     return render(request, 'dashboard/leads.html', context)
 

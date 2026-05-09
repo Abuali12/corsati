@@ -32,6 +32,11 @@ def centers(request):
     page_number= request.GET.get('page')
     page= paged_centers.get_page(page_number)
 
+    query= request.GET.copy()
+
+    if 'page' in query:
+        query.pop('page')
+
     context= {
         'centers': centers,
         'paged_centers': page,
@@ -39,6 +44,7 @@ def centers(request):
         'subjects': Subject.objects.annotate(
             center_count= Count('centers', distinct=True, filter=Q(centers__is_active= True, centers__is_verified= True, centers__is_deleted= False))
         ).filter(center_count__gt=0),
+        'query': query.urlencode(),
         }
     return render(request, 'centers/centers.html', context)
 
