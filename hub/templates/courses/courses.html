@@ -19,65 +19,65 @@
 
     <!-- ================= FILTER SECTION ================= -->
 
-<div class="filter-wrapper">
+    <div class="filter-wrapper">
 
-    <form method="get" class="filter-form">
+        <form method="get" class="filter-form">
 
-        <div class="filter-row">
+            <div class="filter-row">
 
-            <div class="filter-field search-field">
-                <input type="text"
-                       name="q"
-                       placeholder="🔍 بحث باسم الدورة"
-                       value="{{ request.GET.q }}">
+                <div class="filter-field search-field">
+                    <input type="text"
+                        name="q"
+                        placeholder="🔍 بحث باسم الدورة"
+                        value="{{ request.GET.q }}">
+                </div>
+
+                <div class="filter-field">
+                    <select name="subject" id="subject">
+                        <option value="">المجال - الكل</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}"
+                            {% if request.GET.subject == subject.id|stringformat:'s' %}
+                                selected
+                            {% endif %}>
+                                {{ subject.title }} ({{ subject.course_count }} دورة)
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-field">
+                    <select name="type" id="type">
+                        <option value="">نوع الدورة - الكل</option>
+                        {% for value, option in type %}
+                            <option value="{{ value }}"
+                            {% if request.GET.type == value %}
+                                selected
+                            {% endif %}>
+                                {{ option }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- <div class="filter-field">
+                    <input type="number"
+                        name="price"
+                        id="price"
+                        placeholder="أقصى سعر، مثال: 500"
+                        value="{{ request.GET.price }}">
+                </div> -->
+
             </div>
 
-            <div class="filter-field">
-                <select name="subject" id="subject">
-                    <option value="">المجال - الكل</option>
-                    {% for subject in subjects %}
-                        <option value="{{ subject.id }}"
-                        {% if request.GET.subject == subject.id|stringformat:'s' %}
-                            selected
-                        {% endif %}>
-                            {{ subject.title }} ({{ subject.course_count }} دورة)
-                        </option>
-                    {% endfor %}
-                </select>
+            <div class="filter-actions">
+                <button type="submit" class="btn-search">بحث</button>
+                <a href="{% url 'courses' %}" class="btn-clear"> تصفية البحث</a>
             </div>
 
-            <div class="filter-field">
-                <select name="type" id="type">
-                    <option value="">نوع الدورة - الكل</option>
-                    {% for value, option in type %}
-                        <option value="{{ value }}"
-                        {% if request.GET.type == value %}
-                            selected
-                        {% endif %}>
-                            {{ option }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
+        </form>
 
-            <!-- <div class="filter-field">
-                <input type="number"
-                       name="price"
-                       id="price"
-                       placeholder="أقصى سعر، مثال: 500"
-                       value="{{ request.GET.price }}">
-            </div> -->
-
-        </div>
-
-        <div class="filter-actions">
-            <button type="submit" class="btn-search">بحث</button>
-            <a href="{% url 'courses' %}" class="btn-clear"> تصفية البحث</a>
-        </div>
-
-    </form>
-
-</div>
+    </div>
 <!-- ==========  courses list ================= -->
 
     <div class="courses-grid">
@@ -118,6 +118,48 @@
     </div>
     {% endif %}
 
+    <div class="request-course">
+        <h3>لم تجد الدورة التي تبحث عنها؟</h3>
+        <p>أخبرنا عن الدورة التي تبحث عنها وسنعمل على توفيرها.</p>
+        <button class="enroll-btn" id="openRequestCourseModal">اخبرنا بالمزيد</button>
+    </div>
+
 </div>
 
+<div id="RequestCourseModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="close-btn" id="closebtn">&times;</button>
+        <h3>طلب دورة جديدة</h3>
+
+        <form method="POST" action="{% url 'request_course' %}">
+            {% csrf_token %}
+            {{ request_course_form.as_p }}
+
+            <div class="modal-actions">
+                <button type="submit" class="submit-btn">إرسال الطلب</button>
+                <button type="button" class="cancel-btn" id="cancelEnroll">إلغاء</button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+// Modal handling for request course
+const openModalBtn = document.getElementById('openRequestCourseModal');
+const requestCourseModal = document.getElementById('RequestCourseModal');
+const closeBtn = document.getElementById('closebtn');  
+const cancelBtn = document.getElementById('cancelEnroll');
+
+openModalBtn.onclick = () => requestCourseModal.style.display = "flex";
+closeBtn.onclick = () => requestCourseModal.style.display = "none";
+cancelBtn.onclick = () => requestCourseModal.style.display = "none";
+
+window.onclick = function(e) {
+    if (e.target === requestCourseModal) {
+        requestCourseModal.style.display = "none";
+    }
+}
+</script>
 {% endblock content %}

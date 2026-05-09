@@ -147,7 +147,7 @@
 
         <form method="POST" action="{% url 'course_lead' course.slug %}">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ lead_form.as_p }}
 
             <div class="modal-actions">
                 <button type="submit" class="submit-btn">إرسال الطلب</button>

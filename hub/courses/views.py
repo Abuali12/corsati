@@ -10,7 +10,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from core.forms import CourseForm, LeadForm
+from core.forms import CourseForm, LeadForm, RequestCourseForm
 from core.utils import center_access_required
 import datetime
 
@@ -53,7 +53,8 @@ def courses(request):
     if 'page' in query:
         query.pop('page')
 
-    print (query)
+    request_course_form= RequestCourseForm()
+
     context={
         'courses': page,
         'subjects': Subject.objects.annotate(
@@ -61,7 +62,9 @@ def courses(request):
         ).filter(course_count__gt=0),
         'states': State.objects.all(),
         'type': Course.TYPE,
-        'query': query.urlencode()}
+        'query': query.urlencode(),
+        'request_course_form': request_course_form
+    }
     
     return render(request, 'courses/courses.html',context)
 
@@ -71,8 +74,11 @@ def course(request, course_slug):
     course.view_count += 1
     course.save(update_fields=['view_count'])
 
-    form= LeadForm()
-    context= {'course': course, 'form': form}
+    lead_form= LeadForm()
+    context= {
+        'course': course,
+        'lead_form': lead_form, 
+        }
     return render(request, 'courses/course.html', context)
 
 # ============= course lead view ============
@@ -141,6 +147,17 @@ def course_lead(request, course_slug):
                 email.send(fail_silently=True)
 
     return redirect('course', course_slug)
+
+# ============= request course view =========
+def request_course(request):
+    if request.method == 'POST':
+        form= RequestCourseForm(request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            form.searched= request.GET.get('q', '')
+            form.save()
+            messages.success(request, "تم إرسال طلبك بنجاح، شكرا لمساعدتنا في تحسين منصتنا!")
+    return redirect('courses')
 
 # ============= CRUD views ==================
 

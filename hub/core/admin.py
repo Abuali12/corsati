@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Center, Course, Lead, Profile, State, Subject, TrackingLink
+from .models import Center, Course, Lead, Profile, State, Subject, TrackingLink, RequestCourse
 
 # Register your models here.
 admin.site.register(Center)
@@ -9,3 +9,4 @@ admin.site.register(Profile)
 admin.site.register(Subject)
 admin.site.register(State)
 admin.site.register(TrackingLink)
+admin.site.register(RequestCourse)

@@ -1,4 +1,4 @@
-from .models import Lead, Center, Course, Subject, State
+from .models import Lead, Center, Course, Subject, State, RequestCourse
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -36,3 +36,14 @@ class StateForm(forms.ModelForm):
         model= State
         fields= '__all__'
 
+class RequestCourseForm(forms.ModelForm):
+    class Meta:
+        model= RequestCourse
+        fields= ['reason', 'state', 'requested_course', 'message']
+
+        widgets= {
+            'reason': forms.Select(attrs={'class': 'form-control'}),
+            'state': forms.Select(attrs={'class': 'form-control'}),
+            'requested_course': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نوع الدورات التي تبحث عنها'}),
+            'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'ملاحظات إضافية (اختياري)', 'rows': 4}),
+        }
