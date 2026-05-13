@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
-from django.db.models import Q,Count
+from django.db.models import Q,Count, F, FloatField, ExpressionWrapper
 from core.forms import CenterForm
 import datetime
 
@@ -27,8 +27,13 @@ def centers(request):
     if subject:
         centers= centers.filter(subjects__id= subject)
 
-    centers= centers.distinct()
-    paged_centers= Paginator(centers, 10)
+    centers= centers.distinct().annotate(
+        course_count=Count('courses', distinct=True, filter=Q(courses__is_active= True, courses__is_verified= True, courses__is_deleted= False)),
+        lead_count=Count('courses__leads', distinct=True, filter=Q(courses__leads__created_at__gte= datetime.datetime.now() - datetime.timedelta(days=30))),
+        score= ExpressionWrapper(F('lead_count') * 0.7 + F('course_count') * 0.3, output_field= FloatField())
+        )
+
+    paged_centers= Paginator(centers.order_by('-score', '-created_at' ), 10)
     page_number= request.GET.get('page')
     page= paged_centers.get_page(page_number)
 
@@ -38,7 +43,7 @@ def centers(request):
         query.pop('page')
 
     context= {
-        'centers': centers,
+        'centers': centers.order_by('-score', '-created_at' ),
         'paged_centers': page,
         'states': State.objects.all(),
         'subjects': Subject.objects.annotate(
