@@ -90,21 +90,25 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT=True
-SOCIALACCOUNT_AUTO_SIGNUP = True
 
 
 LOGIN_REDIRECT_URL= 'index'
 LOGOUT_REDIRECT_URL= 'index'
 ACCOUNT_LOGOUT_REDIRECT_URL= 'index'
 ACCOUNT_ERROR_REDIRECT_URL= 'signup'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_EMAIL_VERIFICATION_EXPIRE_DAYS = 1
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username','password1*', 'password2*']
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 SOCIALACCOUNT_LOGIN_ON_GET= True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT=True
 SOCIALACCOUNT_AUTO_SIGNUP = True
+
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
@@ -243,14 +247,20 @@ MEDIA_URL= '/media/'
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 
 # mail settings
-EMAIL_BACKEND= 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST= 'smtp.gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'hassan@coursatiapp.com' 
+ZOHO_ZEPTOMAIL_HOSTED_REGION = 'zeptomail.zoho.com' 
+ZOHO_ZEPTOMAIL_API_KEY_TOKEN = os.environ.get('ZOHO_ZEPTOMAIL_API_KEY_TOKEN')
+
+EMAIL_HOST= 'smtp.zeptomail.com'
 EMAIL_PORT= 587
 EMAIL_USE_TLS= True
-EMAIL_HOST_USER= 'hassan.mohemmad777@gmail.com'
+EMAIL_HOST_USER= 'emailapikey'
 EMAIL_HOST_PASSWORD= os.environ.get('EMAIL_HOST_PASSWORD')
 
 #supabase
 SUPABASE_URL= 'https://tafeclqbovzexslwrofd.supabase.co'
 SUPABASE_KEY= os.environ.get('service_role')
 SUPABASE_BUCKET= 'corsati-imgs'
+
+CONN_MAX_AGE= 60
