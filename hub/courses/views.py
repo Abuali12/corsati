@@ -116,8 +116,8 @@ def course_lead(request, course_slug):
                 email = EmailMultiAlternatives(
                     subject,
                     text_content,
-                    'hassan.mohemmad777@gmail.com',
-                    [center_email]
+                    from_email='hassan@coursatiapp.com',
+                    to=[center_email],
                 )
 
                 email.attach_alternative(html_content, "text/html")
@@ -139,8 +139,8 @@ def course_lead(request, course_slug):
                 email= EmailMultiAlternatives(
                     subject,
                     text_content,
-                    'hassan.mohemmad777@gmail.com',
-                    [lead.student_email]
+                    from_email='hassan@coursatiapp.com',
+                    to=[lead.student_email],
                 )
 
                 email.attach_alternative(html_content, 'text/html')

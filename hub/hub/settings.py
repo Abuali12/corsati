@@ -13,12 +13,18 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
     dsn="https://212cf16ac1aaa8faebdcb873a9db8699@o4511384049156096.ingest.de.sentry.io/4511384051843152",
     # Add data like request headers and IP for users,
     # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
     send_default_pii=True,
+    enable_logs=True,
+    integrations=[DjangoIntegration(
+        transaction_style='url',
+    )],
+    environment='development' if os.environ.get('DEBUG', 'False') == 'True' else 'production',
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -254,7 +260,7 @@ ZOHO_ZEPTOMAIL_API_KEY_TOKEN = os.environ.get('ZOHO_ZEPTOMAIL_API_KEY_TOKEN')
 EMAIL_HOST= 'smtp.zeptomail.com'
 EMAIL_PORT= 587
 EMAIL_USE_TLS= True
-EMAIL_HOST_USER= 'emailapikey'
+EMAIL_HOST_USER= 'hassan@coursatiapp.com'
 EMAIL_HOST_PASSWORD= os.environ.get('EMAIL_HOST_PASSWORD')
 
 #supabase
